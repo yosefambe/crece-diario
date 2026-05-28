@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Crece Diario — Tu Coach AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#080C14;font-family:'Outfit',sans-serif;color:#E8EDF5;min-height:100vh;display:flex;justify-content:center}
+#app{width:100%;max-width:480px;min-height:100vh;display:flex;flex-direction:column}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:#1a2535;border-radius:10px}
+input,textarea{color-scheme:dark;font-family:'Outfit',sans-serif}
+input::placeholder,textarea::placeholder{color:#3a4555}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.fade{animation:fadeUp .4s ease}
+.glow1{position:fixed;width:400px;height:400px;border-radius:50%;filter:blur(120px);opacity:.07;background:#4DFFA0;top:-100px;right:-100px;pointer-events:none}
+.glow2{position:fixed;width:300px;height:300px;border-radius:50%;filter:blur(100px);opacity:.05;background:#00C8FF;bottom:50px;left:-80px;pointer-events:none}
+
+/* ONBOARDING */
+#onboarding{flex:1;padding:24px;display:flex;flex-direction:column}
+.prog-bar{display:flex;gap:6px;margin-bottom:40px}
+.prog-bar div{height:3px;flex:1;border-radius:10px;background:rgba(255,255,255,.1);transition:background .3s}
+.prog-bar div.on{background:#4DFFA0}
+.step-title{font-size:30px;font-weight:800;line-height:1.2;margin-bottom:8px}
+.step-sub{font-size:15px;color:#8A95A8;margin-bottom:28px}
+input.field{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px 16px;color:#E8EDF5;font-size:15px;outline:none;margin-bottom:10px}
+.pill{padding:8px 16px;border-radius:100px;border:1.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#8A95A8;font-size:13px;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
+.pill.on{border-color:#4DFFA0;background:rgba(77,255,160,.12);color:#4DFFA0;font-weight:600}
+.level-card{padding:12px 16px;border-radius:12px;cursor:pointer;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);display:flex;justify-content:space-between;align-items:center;transition:all .2s;margin-bottom:8px}
+.level-card.on{border-color:#4DFFA0;background:rgba(77,255,160,.08)}
+.level-card.on .lv-name{color:#4DFFA0}
+.goal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.goal-card{padding:16px 12px;border-radius:14px;cursor:pointer;text-align:center;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);transition:all .2s}
+.goal-card.on{border-color:#4DFFA0;background:rgba(77,255,160,.08)}
+.goal-card.on .gl{color:#4DFFA0}
+.ge{font-size:26px;margin-bottom:6px}.gl{font-size:13px;font-weight:600}
+.btn-p{width:100%;padding:14px;border-radius:14px;border:none;font-size:15px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;background:linear-gradient(135deg,#4DFFA0,#00C87A);color:#080C14;box-shadow:0 0 24px rgba(77,255,160,.3);transition:all .2s;margin-top:20px}
+.btn-p:disabled{background:#1a2030;color:#444;box-shadow:none;cursor:not-allowed}
+.btn-s{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.1);font-size:15px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;background:rgba(255,255,255,.06);color:#E8EDF5;transition:all .2s}
+
+/* MAIN */
+#main{flex:1;display:none;flex-direction:column;overflow:hidden}
+.hdr{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0}
+.goal-badge{padding:5px 12px;border-radius:100px;background:rgba(77,255,160,.1);border:1px solid rgba(77,255,160,.2);font-size:11px;color:#4DFFA0;font-weight:600}
+
+/* SCREENS */
+.screen{flex:1;overflow-y:auto;padding:20px 16px 100px;display:none}
+.screen.on{display:block}
+.stitle{font-size:22px;font-weight:800;margin-bottom:4px}
+.ssub{font-size:13px;color:#8A95A8;margin-bottom:18px}
+.slabel{font-size:11px;color:#8A95A8;margin-bottom:10px;letter-spacing:1px;margin-top:16px}
+
+/* EXERCISE */
+.disc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px}
+.dc{padding:12px 8px;border-radius:12px;cursor:pointer;text-align:center;border:1.5px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);transition:all .2s}
+.dc.on{border-color:#4DFFA0;background:rgba(77,255,160,.1)}
+.dc.on .dl{color:#4DFFA0}
+.de{font-size:22px}.dl{font-size:11px;margin-top:4px;font-weight:600;color:#8A95A8}
+.dur-row{display:flex;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+
+/* ROUTINE CARDS */
+.routine-header{background:linear-gradient(135deg,rgba(77,255,160,.15),rgba(0,200,122,.08));border:1px solid rgba(77,255,160,.2);border-radius:16px;padding:16px;margin-bottom:16px}
+.routine-header h3{font-size:16px;font-weight:700;color:#4DFFA0;margin-bottom:6px}
+.routine-header p{font-size:13px;color:#B0BAC8;line-height:1.5}
+
+.ex-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;margin-bottom:14px;overflow:hidden;transition:all .2s}
+.ex-card-header{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.ex-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#4DFFA0,#00C87A);color:#080C14;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ex-info{flex:1}
+.ex-name{font-size:15px;font-weight:700}
+.ex-meta{font-size:12px;color:#8A95A8;margin-top:2px}
+.ex-expand{font-size:18px;color:#4DFFA0;transition:transform .3s}
+.ex-card.open .ex-expand{transform:rotate(180deg)}
+.ex-body{display:none;border-top:1px solid rgba(255,255,255,.06)}
+.ex-card.open .ex-body{display:block}
+.ex-img{width:100%;height:180px;object-fit:cover;background:#111820}
+.ex-img-placeholder{width:100%;height:180px;background:linear-gradient(135deg,#0d1520,#1a2535);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.ex-video{width:100%;height:200px;border:none}
+.ex-details{padding:14px 16px}
+.ex-tip{font-size:13px;color:#B0BAC8;line-height:1.5;background:rgba(77,255,160,.05);border-left:3px solid #4DFFA0;padding:10px 12px;border-radius:0 8px 8px 0;margin-bottom:10px}
+.ex-stats{display:flex;gap:8px}
+.ex-stat{flex:1;background:rgba(255,255,255,.04);border-radius:10px;padding:10px;text-align:center}
+.ex-stat-val{font-size:16px;font-weight:700;color:#4DFFA0}
+.ex-stat-lbl{font-size:10px;color:#8A95A8;margin-top:2px}
+
+.tip-card{background:linear-gradient(135deg,rgba(255,200,0,.08),rgba(255,150,0,.05));border:1px solid rgba(255,200,0,.2);border-radius:14px;padding:14px 16px;margin-top:4px}
+.tip-card p{font-size:13px;color:#E8D080;line-height:1.6}
+
+.pdf-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border-radius:14px;border:1.5px solid rgba(77,255,160,.3);background:rgba(77,255,160,.06);color:#4DFFA0;font-size:14px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;margin-top:16px;transition:all .2s}
+.pdf-btn:hover{background:rgba(77,255,160,.12)}
+
+/* HABITS */
+.prog-wrap{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:18px}
+.habit-item{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;cursor:pointer;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);transition:all .2s;margin-bottom:10px}
+.habit-item.done{border-color:rgba(77,255,160,.25);background:rgba(77,255,160,.08)}
+.habit-text{flex:1;font-size:14px;font-weight:500}
+.habit-item.done .habit-text{color:#4DFFA0;text-decoration:line-through;opacity:.7}
+.hcheck{width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:12px;color:#080C14;font-weight:700;flex-shrink:0;transition:all .2s}
+.habit-item.done .hcheck{background:#4DFFA0;border:none}
+.add-row{display:flex;gap:8px;margin-bottom:16px}
+.add-row input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:13px 16px;color:#E8EDF5;font-size:14px;outline:none}
+.add-btn{padding:0 16px;border-radius:12px;background:rgba(77,255,160,.15);border:1px solid rgba(77,255,160,.3);color:#4DFFA0;cursor:pointer;font-size:20px}
+.sug-item{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;background:rgba(255,200,0,.05);border:1px solid rgba(255,200,0,.15);margin-bottom:8px;animation:fadeUp .3s ease}
+.add-sug{padding:5px 12px;border-radius:8px;background:rgba(77,255,160,.15);border:1px solid rgba(77,255,160,.3);color:#4DFFA0;cursor:pointer;font-size:12px;font-family:'Outfit',sans-serif;font-weight:600}
+
+/* COACH */
+#coach-screen{display:none;flex-direction:column;overflow:hidden;flex:1}
+#coach-screen.on{display:flex}
+.msgs{flex:1;overflow-y:auto;padding:16px 16px 0}
+.mwrap{display:flex;margin-bottom:12px;animation:fadeUp .3s ease}
+.mwrap.u{justify-content:flex-end}
+.mavatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#4DFFA0,#00C87A);display:flex;align-items:center;justify-content:center;font-size:14px;margin-right:8px;margin-top:2px;flex-shrink:0}
+.mbubble{max-width:76%;padding:11px 14px;font-size:14px;line-height:1.6;white-space:pre-wrap}
+.mbubble.bot{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px 16px 16px 4px}
+.mbubble.usr{background:linear-gradient(135deg,#4DFFA0,#00C87A);border-radius:16px 16px 4px 16px;color:#080C14}
+.typing{display:flex;gap:5px;padding:12px 16px}
+.dot{width:7px;height:7px;border-radius:50%;background:#4DFFA0;animation:bounce 1.2s infinite}
+.qqs{padding:8px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.qqs::-webkit-scrollbar{display:none}
+.qq{flex-shrink:0;padding:6px 14px;border-radius:100px;background:rgba(77,255,160,.07);border:1px solid rgba(77,255,160,.18);color:#4DFFA0;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap}
+.cin{padding:8px 16px 20px;flex-shrink:0}
+.cin-inner{display:flex;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:4px 4px 4px 14px}
+.cin-inner textarea{flex:1;background:transparent;border:none;color:#E8EDF5;font-size:14px;font-family:'Outfit',sans-serif;line-height:1.5;padding:8px 0;resize:none;outline:none;max-height:80px;overflow-y:auto}
+.sbtn{width:38px;height:38px;border-radius:10px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;align-self:flex-end;margin-bottom:2px;transition:all .2s}
+.sbtn.on{background:linear-gradient(135deg,#4DFFA0,#00C87A);color:#080C14}
+.sbtn.off{background:rgba(255,255,255,.06);color:#555;cursor:not-allowed}
+
+/* NAV */
+.bnav{display:flex;position:sticky;bottom:0;background:rgba(8,12,20,.95);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.07);padding:8px 0;z-index:20;flex-shrink:0}
+.nbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:none;cursor:pointer;padding:8px 0;font-family:'Outfit',sans-serif}
+.ni{font-size:22px}.nl{font-size:10px;font-weight:600;letter-spacing:.5px;color:#555}
+.nbtn.on .nl{color:#4DFFA0}
+.ndot{width:4px;height:4px;border-radius:50%;background:#4DFFA0}
+
+/* PLAN BADGE + USAGE */
+.plan-pill{padding:4px 10px;border-radius:100px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid;transition:all .2s;letter-spacing:.5px}
+.plan-pill.free{background:rgba(138,149,168,.1);border-color:rgba(138,149,168,.25);color:#8A95A8}
+.plan-pill.pro{background:rgba(77,255,160,.12);border-color:rgba(77,255,160,.35);color:#4DFFA0}
+.plan-pill.lifetime{background:rgba(255,200,0,.12);border-color:rgba(255,200,0,.35);color:#FFD700}
+.usage-bar-wrap{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.usage-stat{text-align:center;flex:1}
+.usage-stat-val{font-size:15px;font-weight:800;color:#4DFFA0}
+.usage-stat-val.warn{color:#FF9500}
+.usage-stat-val.full{color:#FF4B4B}
+.usage-stat-lbl{font-size:9px;color:#8A95A8;margin-top:2px;letter-spacing:.5px}
+.usage-divider{width:1px;height:32px;background:rgba(255,255,255,.08)}
+.upgrade-inline-btn{padding:7px 14px;border-radius:10px;background:linear-gradient(135deg,rgba(77,255,160,.15),rgba(77,255,160,.05));border:1px solid rgba(77,255,160,.3);color:#4DFFA0;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap;flex-shrink:0}
+
+/* PRICING OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:100;overflow-y:auto;padding:20px 0 40px;display:none}
+.overlay.on{display:block}
+.pricing-wrap{max-width:480px;margin:0 auto;padding:0 16px}
+.pricing-hdr{text-align:center;padding:24px 0 20px}
+.pricing-hdr h2{font-size:28px;font-weight:800;margin-bottom:6px}
+.pricing-hdr p{font-size:14px;color:#8A95A8}
+.pricing-hdr .neon{color:#4DFFA0}
+.plan-card{border-radius:20px;padding:24px;margin-bottom:14px;position:relative;transition:transform .2s}
+.plan-card.free{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1)}
+.plan-card.pro{background:linear-gradient(145deg,rgba(77,255,160,.08),rgba(0,200,122,.04));border:1.5px solid rgba(77,255,160,.35);box-shadow:0 0 40px rgba(77,255,160,.08)}
+.plan-card.lifetime{background:linear-gradient(145deg,rgba(255,200,0,.07),rgba(255,150,0,.04));border:1.5px solid rgba(255,200,0,.3)}
+.badge-popular{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#4DFFA0,#00C87A);color:#080C14;font-size:11px;font-weight:800;padding:4px 14px;border-radius:100px;letter-spacing:.5px}
+.badge-value{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FFD700,#FF9500);color:#080C14;font-size:11px;font-weight:800;padding:4px 14px;border-radius:100px;letter-spacing:.5px}
+.plan-name{font-size:18px;font-weight:800;margin-bottom:4px}
+.plan-price{display:flex;align-items:baseline;gap:4px;margin-bottom:4px}
+.plan-price .amount{font-size:38px;font-weight:800}
+.plan-price .currency{font-size:18px;font-weight:700;color:#8A95A8}
+.plan-price .period{font-size:13px;color:#8A95A8}
+.plan-tagline{font-size:12px;color:#8A95A8;margin-bottom:16px}
+.plan-features{list-style:none;margin-bottom:20px}
+.plan-features li{font-size:13px;color:#B0BAC8;padding:5px 0;display:flex;align-items:center;gap:8px}
+.plan-features li .ck{font-size:13px;width:18px;flex-shrink:0}
+.plan-features li .ck.yes{color:#4DFFA0}
+.plan-features li .ck.no{color:#444}
+.plan-features li.dim{color:#555}
+.btn-plan{width:100%;padding:14px;border-radius:14px;border:none;font-size:15px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
+.btn-plan.free{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#E8EDF5}
+.btn-plan.pro{background:linear-gradient(135deg,#4DFFA0,#00C87A);color:#080C14;box-shadow:0 0 28px rgba(77,255,160,.3)}
+.btn-plan.lifetime{background:linear-gradient(135deg,#FFD700,#FF9500);color:#080C14;box-shadow:0 0 28px rgba(255,200,0,.25)}
+.btn-plan.current{background:rgba(77,255,160,.08);border:1.5px solid rgba(77,255,160,.3);color:#4DFFA0;cursor:default}
+.overlay-close{display:flex;align-items:center;justify-content:center;gap:8px;color:#8A95A8;background:transparent;border:none;font-family:'Outfit',sans-serif;font-size:14px;cursor:pointer;margin:8px auto 0;padding:8px 20px}
+
+/* UPGRADE POPUP */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:0 0 0}
+.popup-overlay.on{display:flex}
+.popup-card{background:#0E1620;border:1px solid rgba(255,255,255,.1);border-radius:24px 24px 0 0;padding:28px 20px 40px;width:100%;max-width:480px;animation:slideUp .35s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.popup-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,rgba(255,75,75,.15),rgba(255,75,75,.05));border:1px solid rgba(255,75,75,.25);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px}
+.popup-title{font-size:20px;font-weight:800;text-align:center;margin-bottom:6px}
+.popup-sub{font-size:13px;color:#8A95A8;text-align:center;margin-bottom:20px;line-height:1.5}
+.popup-plans{display:flex;gap:10px;margin-bottom:16px}
+.popup-plan{flex:1;border-radius:14px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}
+.popup-plan.pro{border-color:rgba(77,255,160,.3);background:rgba(77,255,160,.05)}
+.popup-plan.lifetime{border-color:rgba(255,200,0,.25);background:rgba(255,200,0,.04)}
+.popup-plan-price{font-size:20px;font-weight:800}
+.popup-plan-price.pro{color:#4DFFA0}
+.popup-plan-price.lifetime{color:#FFD700}
+.popup-plan-name{font-size:12px;color:#8A95A8;margin-top:2px}
+.popup-plan-sub{font-size:10px;color:#555;margin-top:4px}
+</style>
+</head>
+<body>
+<div id="app">
+<div class="glow1"></div><div class="glow2"></div>
+
+<!-- ONBOARDING -->
+<div id="onboarding">
+  <div class="prog-bar"><div id="p0" class="on"></div><div id="p1"></div><div id="p2"></div></div>
+  <div id="s0">
+    <div class="step-title">Bienvenido a<br>Crece Diario ⚡</div>
+    <div class="step-sub">Tu entrenador personal con IA</div>
+    <input class="field" id="fname" placeholder="¿Cómo te llamas?" oninput="ck0()"/>
+    <input class="field" id="fage" placeholder="Tu edad" type="number" oninput="ck0()"/>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div class="pill" onclick="sg('Hombre')">Hombre</div>
+      <div class="pill" onclick="sg('Mujer')">Mujer</div>
+      <div class="pill" onclick="sg('Otro')">Otro</div>
+    </div>
+    <button class="btn-p" id="b0" disabled onclick="gs(1)">Continuar →</button>
+  </div>
+  <div id="s1" style="display:none">
+    <div class="step-title">Tu cuerpo 💪</div>
+    <div class="step-sub">Para crear tu plan perfecto</div>
+    <div style="display:flex;gap:10px;margin-bottom:10px">
+      <div style="flex:1"><div style="font-size:11px;color:#8A95A8;margin-bottom:6px">PESO (kg)</div><input class="field" id="fweight" placeholder="70" type="number" oninput="ck1()" style="margin:0"/></div>
+      <div style="flex:1"><div style="font-size:11px;color:#8A95A8;margin-bottom:6px">ALTURA (cm)</div><input class="field" id="fheight" placeholder="170" type="number" oninput="ck1()" style="margin:0"/></div>
+    </div>
+    <div style="font-size:11px;color:#8A95A8;margin:12px 0 8px">NIVEL</div>
+    <div class="level-card" id="lp" onclick="sl('principiante')"><span class="lv-name" style="font-weight:600">Principiante</span><span style="font-size:12px;color:#8A95A8">Menos de 6 meses</span></div>
+    <div class="level-card" id="li" onclick="sl('intermedio')"><span class="lv-name" style="font-weight:600">Intermedio</span><span style="font-size:12px;color:#8A95A8">6 meses – 2 años</span></div>
+    <div class="level-card" id="la" onclick="sl('avanzado')"><span class="lv-name" style="font-weight:600">Avanzado</span><span style="font-size:12px;color:#8A95A8">Más de 2 años</span></div>
+    <button class="btn-p" id="b1" disabled onclick="gs(2)">Continuar →</button>
+  </div>
+  <div id="s2" style="display:none">
+    <div class="step-title">¿Tu objetivo? 🎯</div>
+    <div class="step-sub">Haremos todo enfocado en esto</div>
+    <div class="goal-grid">
+      <div class="goal-card" onclick="sgo('musculo','💪','Subir músculo')"><div class="ge">💪</div><div class="gl">Subir músculo</div></div>
+      <div class="goal-card" onclick="sgo('grasa','🔥','Bajar grasa')"><div class="ge">🔥</div><div class="gl">Bajar grasa</div></div>
+      <div class="goal-card" onclick="sgo('resistencia','🏃','Resistencia')"><div class="ge">🏃</div><div class="gl">Resistencia</div></div>
+      <div class="goal-card" onclick="sgo('flexibilidad','🧘','Flexibilidad')"><div class="ge">🧘</div><div class="gl">Flexibilidad</div></div>
+      <div class="goal-card" onclick="sgo('tonificar','✨','Tonificar')"><div class="ge">✨</div><div class="gl">Tonificar</div></div>
+      <div class="goal-card" onclick="sgo('salud','💚','Salud general')"><div class="ge">💚</div><div class="gl">Salud general</div></div>
+    </div>
+    <button class="btn-p" id="b2" disabled onclick="startApp()">¡Empezar mi plan! 🚀</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="main">
+  <div class="hdr">
+    <div>
+      <div style="font-size:11px;color:#8A95A8;letter-spacing:1px">HOLA DE NUEVO</div>
+      <div style="font-size:18px;font-weight:800" id="hname">—</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="plan-pill free" id="planpill" onclick="showPricing()">FREE</button>
+      <div class="goal-badge" id="gbadge">—</div>
+    </div>
+  </div>
+
+  <!-- EXERCISE -->
+  <div class="screen on" id="exercise-screen">
+    <div class="stitle">Tu Rutina 🏋️</div>
+    <div class="ssub">Objetivo: <span style="color:#4DFFA0" id="exgoal">—</span></div>
+    <div class="slabel">ELIGE TU DISCIPLINA</div>
+    <div class="disc-grid">
+      <div class="dc" onclick="sd(this,'calistenia')"><div class="de">🤸</div><div class="dl">Calistenia</div></div>
+      <div class="dc" onclick="sd(this,'pesas')"><div class="de">🏋️</div><div class="dl">Pesas</div></div>
+      <div class="dc" onclick="sd(this,'yoga')"><div class="de">🧘</div><div class="dl">Yoga</div></div>
+      <div class="dc" onclick="sd(this,'crossfit')"><div class="de">⚡</div><div class="dl">CrossFit</div></div>
+      <div class="dc" onclick="sd(this,'movilidad')"><div class="de">🌀</div><div class="dl">Movilidad</div></div>
+      <div class="dc" onclick="sd(this,'cardio')"><div class="de">🏃</div><div class="dl">Cardio</div></div>
+      <div class="dc" onclick="sd(this,'pilates')"><div class="de">🌿</div><div class="dl">Pilates</div></div>
+      <div class="dc" onclick="sd(this,'barra')"><div class="de">💪</div><div class="dl">Barra/Pull</div></div>
+      <div class="dc" onclick="sd(this,'hiit')"><div class="de">🔥</div><div class="dl">HIIT</div></div>
+      <div class="dc" onclick="sd(this,'lagartijas')"><div class="de">📐</div><div class="dl">Push-Up</div></div>
+      <div class="dc" onclick="sd(this,'funcional')"><div class="de">🎯</div><div class="dl">Funcional</div></div>
+      <div class="dc" onclick="sd(this,'mujer')"><div class="de">🌸</div><div class="dl">Fitness F.</div></div>
+    </div>
+    <div class="slabel">DURACIÓN</div>
+    <div class="dur-row">
+      <div class="pill" onclick="sdr(this,'20')">20 min</div>
+      <div class="pill on" onclick="sdr(this,'45')">45 min</div>
+      <div class="pill" onclick="sdr(this,'60')">60 min</div>
+      <div class="pill" onclick="sdr(this,'90')">90 min</div>
+    </div>
+    <div class="usage-bar-wrap" id="usage-bar">
+      <div class="usage-stat"><div class="usage-stat-val" id="u-routines">0/3</div><div class="usage-stat-lbl">RUTINAS</div></div>
+      <div class="usage-divider"></div>
+      <div class="usage-stat"><div class="usage-stat-val" id="u-messages">0/10</div><div class="usage-stat-lbl">MENSAJES</div></div>
+      <div class="usage-divider"></div>
+      <div class="usage-stat"><div class="usage-stat-val" id="u-habits">0/5</div><div class="usage-stat-lbl">HÁBITOS</div></div>
+      <button class="upgrade-inline-btn" onclick="showPricing()">⚡ Pro</button>
+    </div>
+    <button class="btn-p" id="genbtn" onclick="genRoutine()" style="margin-top:20px">Generar rutina personalizada 🚀</button>
+    <div id="routine-out" style="margin-top:20px;display:none"></div>
+  </div>
+
+  <!-- HABITS -->
+  <div class="screen" id="habits-screen">
+    <div class="stitle">Hábitos Diarios 🌱</div>
+    <div class="ssub" id="hdate">—</div>
+    <div class="prog-wrap">
+      <div style="position:relative;width:64px;height:64px;flex-shrink:0">
+        <svg width="64" height="64" style="transform:rotate(-90deg)">
+          <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/>
+          <circle id="pcirc" cx="32" cy="32" r="26" fill="none" stroke="#4DFFA0" stroke-width="5" stroke-dasharray="163.4" stroke-dashoffset="163.4" stroke-linecap="round" style="transition:stroke-dashoffset .5s ease"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#4DFFA0" id="ppct">0%</div>
+      </div>
+      <div><div style="font-weight:700;font-size:16px" id="plabel">0/5 completados</div><div style="font-size:13px;color:#8A95A8;margin-top:2px" id="pmsg">¡Sigue adelante!</div></div>
+    </div>
+    <div id="hlist"></div>
+    <div class="add-row">
+      <input id="nhi" placeholder="Agregar hábito..." onkeydown="if(event.key==='Enter')addH()"/>
+      <button class="add-btn" onclick="addH()">+</button>
+    </div>
+    <button class="btn-s" onclick="getSugs()" id="sugbtn">💡 Sugerir hábitos con IA</button>
+    <div id="sugwrap" style="margin-top:16px;display:none"></div>
+  </div>
+
+  <!-- COACH -->
+  <div id="coach-screen">
+    <div class="msgs" id="msgs"></div>
+    <div class="qqs">
+      <button class="qq" onclick="doSend('¿Qué comer hoy?')">¿Qué comer hoy?</button>
+      <button class="qq" onclick="doSend('Motivación 🔥')">Motivación 🔥</button>
+      <button class="qq" onclick="doSend('¿Cómo mejorar mi sueño?')">Sueño</button>
+      <button class="qq" onclick="doSend('Consejo de hoy')">Consejo de hoy</button>
+    </div>
+    <div class="cin">
+      <div class="cin-inner">
+        <textarea id="ci" rows="1" placeholder="Pregúntame lo que quieras..."
+          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px';usb()"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"></textarea>
+        <button class="sbtn off" id="sb" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bnav">
+    <button class="nbtn on" id="ne" onclick="swTab('exercise')"><span class="ni">🏋️</span><span class="nl">EJERCICIO</span><div class="ndot"></div></button>
+    <button class="nbtn" id="nh" onclick="swTab('habits')"><span class="ni">🌱</span><span class="nl">HÁBITOS</span></button>
+    <button class="nbtn" id="nc" onclick="swTab('coach')"><span class="ni">⚡</span><span class="nl">COACH</span></button>
+  </div>
+</div>
+
+<!-- PRICING OVERLAY -->
+<div class="overlay" id="pricing-overlay">
+  <div class="pricing-wrap">
+    <div class="pricing-hdr">
+      <h2>Elige tu <span class="neon">plan</span></h2>
+      <p>Empieza gratis, crece sin límites</p>
+    </div>
+
+    <!-- FREE -->
+    <div class="plan-card free">
+      <div class="plan-name">Freemium</div>
+      <div class="plan-price"><span class="amount">$0</span><span class="period">/mes</span></div>
+      <div class="plan-tagline">Para empezar tu journey</div>
+      <ul class="plan-features">
+        <li><span class="ck yes">✓</span> 3 rutinas generadas por mes</li>
+        <li><span class="ck yes">✓</span> 10 mensajes al coach</li>
+        <li><span class="ck yes">✓</span> Hasta 5 hábitos diarios</li>
+        <li><span class="ck yes">✓</span> Descarga PDF de rutinas</li>
+        <li class="dim"><span class="ck no">✕</span> Coach sin límites</li>
+        <li class="dim"><span class="ck no">✕</span> Hábitos ilimitados</li>
+      </ul>
+      <button class="btn-plan free" id="btn-free" onclick="selectFreePlan()">Plan actual</button>
+    </div>
+
+    <!-- PRO -->
+    <div class="plan-card pro" style="margin-top:22px">
+      <div class="badge-popular">⚡ MÁS POPULAR</div>
+      <div class="plan-name" style="color:#4DFFA0">Pro</div>
+      <div class="plan-price"><span class="currency">$</span><span class="amount" style="color:#4DFFA0">9</span><span class="period">/mes</span></div>
+      <div class="plan-tagline">Todo ilimitado, sin restricciones</div>
+      <ul class="plan-features">
+        <li><span class="ck yes">✓</span> <strong>Rutinas ilimitadas</strong></li>
+        <li><span class="ck yes">✓</span> <strong>Coach sin límites 24/7</strong></li>
+        <li><span class="ck yes">✓</span> <strong>Hábitos ilimitados</strong></li>
+        <li><span class="ck yes">✓</span> Descarga PDF ilimitada</li>
+        <li><span class="ck yes">✓</span> Sugerencias IA ilimitadas</li>
+        <li><span class="ck yes">✓</span> Nuevas funciones primero</li>
+      </ul>
+      <button class="btn-plan pro" id="btn-pro" onclick="goPro()">Comenzar Pro → $9/mes</button>
+    </div>
+
+    <!-- LIFETIME -->
+    <div class="plan-card lifetime" style="margin-top:22px">
+      <div class="badge-value">🔥 MEJOR VALOR</div>
+      <div class="plan-name" style="color:#FFD700">Lifetime</div>
+      <div class="plan-price"><span class="currency" style="color:#FFD700">$</span><span class="amount" style="color:#FFD700">59</span><span class="period">pago único</span></div>
+      <div class="plan-tagline">Paga una vez, usa para siempre</div>
+      <ul class="plan-features">
+        <li><span class="ck yes" style="color:#FFD700">✓</span> <strong>Todo ilimitado para siempre</strong></li>
+        <li><span class="ck yes" style="color:#FFD700">✓</span> <strong>Acceso a todas las funciones</strong></li>
+        <li><span class="ck yes" style="color:#FFD700">✓</span> Sin pagos recurrentes</li>
+        <li><span class="ck yes" style="color:#FFD700">✓</span> Actualizaciones de por vida</li>
+        <li><span class="ck yes" style="color:#FFD700">✓</span> Soporte prioritario</li>
+        <li><span class="ck yes" style="color:#FFD700">✓</span> <strong>Ahorra +$49 vs Pro anual</strong></li>
+      </ul>
+      <button class="btn-plan lifetime" id="btn-lifetime" onclick="goLifetime()">Obtener Lifetime → $59</button>
+    </div>
+
+    <div style="text-align:center;font-size:11px;color:#444;margin-top:16px;line-height:1.6">
+      🔒 Pago seguro con Stripe &nbsp;•&nbsp; Cancela cuando quieras<br>Garantía de satisfacción 7 días
+    </div>
+    <button class="overlay-close" onclick="hidePricing()">✕ &nbsp;Cerrar</button>
+  </div>
+</div>
+
+<!-- UPGRADE POPUP -->
+<div class="popup-overlay" id="upgrade-popup">
+  <div class="popup-card">
+    <div class="popup-icon">🔒</div>
+    <div class="popup-title" id="popup-title">Límite alcanzado</div>
+    <div class="popup-sub" id="popup-sub">Has usado todas tus rutinas del mes gratuito.<br>Pasa a Pro para seguir entrenando sin límites.</div>
+    <div class="popup-plans">
+      <div class="popup-plan pro" onclick="goPro();closePopup()">
+        <div class="popup-plan-price pro">$9</div>
+        <div class="popup-plan-name">Pro / mes</div>
+        <div class="popup-plan-sub">Cancela cuando quieras</div>
+      </div>
+      <div class="popup-plan lifetime" onclick="goLifetime();closePopup()">
+        <div class="popup-plan-price lifetime">$59</div>
+        <div class="popup-plan-name">Lifetime</div>
+        <div class="popup-plan-sub">Pago único para siempre</div>
+      </div>
+    </div>
+    <button class="btn-p" onclick="showPricing();closePopup()" style="margin-top:0">Ver planes completos ⚡</button>
+    <button class="btn-s" onclick="closePopup()" style="margin-top:10px;padding:11px">Seguir con plan Free</button>
+  </div>
+</div>
+
+<script>
+const AK = "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";
+// ── STRIPE PAYMENT LINKS (replace with your own from Stripe Dashboard) ──
+const STRIPE = {
+  pro:      'https://buy.stripe.com/YOUR_PRO_MONTHLY_LINK',
+  lifetime: 'https://buy.stripe.com/YOUR_LIFETIME_LINK'
+};
+
+// ── PLAN CONFIG ──
+const LIMITS = {
+  freemium: { routines:3, messages:10, habits:5 },
+  pro:      { routines:Infinity, messages:Infinity, habits:Infinity },
+  lifetime: { routines:Infinity, messages:Infinity, habits:Infinity }
+};
+
+function getMonth(){ return new Date().toISOString().slice(0,7); }
+
+function loadUsage(){
+  let u = JSON.parse(localStorage.getItem('cd_usage')||'null');
+  if(!u || u.month !== getMonth()) u = {month:getMonth(), routines:0, messages:0, habits:0};
+  return u;
+}
+function saveUsage(u){ localStorage.setItem('cd_usage', JSON.stringify(u)); }
+
+function loadPlan(){
+  return localStorage.getItem('cd_plan')||'freemium';
+}
+function savePlan(p){ localStorage.setItem('cd_plan', p); }
+
+function currentPlan(){ return loadPlan(); }
+function isUnlimited(){ const p=currentPlan(); return p==='pro'||p==='lifetime'; }
+
+function canDo(type){
+  if(isUnlimited()) return true;
+  const u=loadUsage(), lim=LIMITS.freemium;
+  return u[type] < lim[type];
+}
+
+function trackUsage(type){
+  const u=loadUsage();
+  u[type]++;
+  saveUsage(u);
+  updateUsageUI();
+}
+
+function updateUsageUI(){
+  const plan=currentPlan();
+  const u=loadUsage();
+  const lim=LIMITS.freemium;
+  const unlimited=isUnlimited();
+
+  // Plan pill
+  const pill=document.getElementById('planpill');
+  if(pill){
+    pill.className='plan-pill '+plan;
+    pill.textContent=plan==='freemium'?'FREE':plan==='pro'?'⚡ PRO':'👑 LIFETIME';
+  }
+
+  // Usage bar — hide for paid plans
+  const bar=document.getElementById('usage-bar');
+  if(bar) bar.style.display=unlimited?'none':'flex';
+
+  if(!unlimited){
+    setUsageStat('u-routines', u.routines, lim.routines);
+    setUsageStat('u-messages', u.messages, lim.messages);
+    setUsageStat('u-habits',   u.habits,   lim.habits);
+  }
+}
+
+function setUsageStat(id, used, max){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.textContent=used+'/'+max;
+  el.className='usage-stat-val';
+  if(used>=max) el.classList.add('full');
+  else if(used>=max*0.7) el.classList.add('warn');
+}
+
+function showUpgradePopup(type){
+  const msgs={
+    routines:['Rutinas agotadas 🏋️','Has usado tus 3 rutinas gratuitas de este mes.\nActualiza para generar rutinas ilimitadas.'],
+    messages:['Mensajes del coach agotados ⚡','Has usado tus 10 mensajes gratuitos.\nPasa a Pro para chatear sin límites con tu coach.'],
+    habits:  ['Límite de hábitos alcanzado 🌱','El plan Free permite hasta 5 hábitos.\nActualiza para agregar hábitos ilimitados.']
+  };
+  const [title,sub]=msgs[type]||['Límite alcanzado','Actualiza tu plan para continuar.'];
+  document.getElementById('popup-title').textContent=title;
+  document.getElementById('popup-sub').textContent=sub;
+  document.getElementById('upgrade-popup').classList.add('on');
+}
+function closePopup(){ document.getElementById('upgrade-popup').classList.remove('on'); }
+
+function showPricing(){
+  const plan=currentPlan();
+  // Update button states
+  ['free','pro','lifetime'].forEach(p=>{
+    const btn=document.getElementById('btn-'+p);
+    if(!btn) return;
+    if(p==='free'&&plan==='freemium'){ btn.textContent='Plan actual ✓'; btn.className='btn-plan current'; }
+    else if(p==='pro'&&plan==='pro'){  btn.textContent='Plan actual ✓'; btn.className='btn-plan current'; }
+    else if(p==='lifetime'&&plan==='lifetime'){ btn.textContent='Plan actual ✓'; btn.className='btn-plan current'; }
+    else if(p==='free'){ btn.textContent='Seguir gratis'; btn.className='btn-plan free'; }
+    else if(p==='pro'){  btn.textContent='Comenzar Pro → $9/mes'; btn.className='btn-plan pro'; }
+    else { btn.textContent='Obtener Lifetime → $59'; btn.className='btn-plan lifetime'; }
+  });
+  document.getElementById('pricing-overlay').classList.add('on');
+}
+function hidePricing(){ document.getElementById('pricing-overlay').classList.remove('on'); }
+
+function selectFreePlan(){ hidePricing(); }
+
+function goPro(){
+  // In production: redirect to Stripe Payment Link
+  // After payment, Stripe redirects to your success_url with ?upgraded=pro
+  window.location.href = STRIPE.pro;
+}
+function goLifetime(){
+  window.location.href = STRIPE.lifetime;
+}
+
+// Check URL for successful payment redirect from Stripe
+function checkPaymentReturn(){
+  const params = new URLSearchParams(window.location.search);
+  const upgraded = params.get('upgraded');
+  if(upgraded==='pro'||upgraded==='lifetime'){
+    savePlan(upgraded);
+    history.replaceState({},'',window.location.pathname);
+    setTimeout(()=>{
+      showPricingSuccess(upgraded);
+    }, 800);
+  }
+}
+
+function showPricingSuccess(plan){
+  const msg = plan==='pro'
+    ? '⚡ ¡Bienvenido a Pro!\nAhora tienes acceso ilimitado a todas las funciones.'
+    : '👑 ¡Eres Lifetime!\nAcceso ilimitado para siempre. ¡Gracias por apoyar Crece Diario!';
+  addBot(msg);
+  updateUsageUI();
+}
+
+let P={}, gender="", level="", goal={}, disc=null, dur="45", habits=[
+  {id:1,text:"Tomar 3 litros de agua",icon:"💧",done:false},
+  {id:2,text:"Leer 5 páginas de un libro",icon:"📚",done:false},
+  {id:3,text:"Dormir 8 horas",icon:"😴",done:false},
+  {id:4,text:"10 min de meditación",icon:"🧘",done:false},
+  {id:5,text:"Sin azúcar añadida",icon:"🚫🍬",done:false},
+], chatH=[], loading=false, lastRoutineData=null;
+
+async function claude(sys,msgs){
+  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":AK,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1500,system:sys,messages:msgs})});
+  const d=await r.json();
+  if(d.error)throw new Error(d.error.message);
+  return d.content.map(b=>b.text||"").join("");
+}
+
+// ONBOARDING
+function sg(g){gender=g;document.querySelectorAll(".pill").forEach(p=>{if(["Hombre","Mujer","Otro"].includes(p.textContent))p.classList.toggle("on",p.textContent===g)});ck0()}
+function ck0(){document.getElementById("b0").disabled=!(document.getElementById("fname").value.trim()&&document.getElementById("fage").value.trim()&&gender)}
+function sl(l){level=l;["lp","li","la"].forEach(x=>document.getElementById(x).classList.remove("on"));document.getElementById({principiante:"lp",intermedio:"li",avanzado:"la"}[l]).classList.add("on");ck1()}
+function ck1(){document.getElementById("b1").disabled=!(document.getElementById("fweight").value.trim()&&document.getElementById("fheight").value.trim()&&level)}
+function sgo(id,icon,label){goal={id,icon,label};document.querySelectorAll(".goal-card").forEach(c=>c.classList.remove("on"));event.currentTarget.classList.add("on");document.getElementById("b2").disabled=false}
+function gs(n){document.getElementById("s"+(n-1)).style.display="none";document.getElementById("s"+n).style.display="block";for(let i=0;i<=n;i++)document.getElementById("p"+i).classList.add("on")}
+function startApp(){
+  P={name:document.getElementById("fname").value.trim(),age:document.getElementById("fage").value.trim(),gender,weight:document.getElementById("fweight").value.trim(),height:document.getElementById("fheight").value.trim(),level,goal};
+  document.getElementById("onboarding").style.display="none";
+  document.getElementById("main").style.display="flex";
+  document.getElementById("hname").textContent=P.name+" 👋";
+  document.getElementById("gbadge").textContent=P.goal.icon+" "+P.goal.label;
+  document.getElementById("exgoal").textContent=P.goal.label;
+  document.getElementById("hdate").textContent=new Date().toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"});
+  renderH();
+  checkPaymentReturn();
+  updateUsageUI();
+  addBot("¡Hola "+P.name+"! 👋\n\nSoy tu coach personal. Conozco tu perfil y objetivos. ¿En qué te ayudo hoy?");
+}
+
+// TABS
+function swTab(t){
+  ["exercise","habits","coach"].forEach(x=>{
+    const b=document.getElementById("n"+x[0]);
+    b.classList.remove("on");
+    const d=b.querySelector(".ndot");if(d)d.remove();
+  });
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on"));
+  document.getElementById("coach-screen").classList.remove("on");
+  const b=document.getElementById("n"+t[0]);
+  b.classList.add("on");
+  const dot=document.createElement("div");dot.className="ndot";b.appendChild(dot);
+  if(t==="coach")document.getElementById("coach-screen").classList.add("on");
+  else document.getElementById(t+"-screen").classList.add("on");
+}
+
+// EXERCISE
+function sd(el,d){document.querySelectorAll(".dc").forEach(c=>c.classList.remove("on"));el.classList.add("on");disc=d}
+function sdr(el,d){document.querySelectorAll(".dur-row .pill").forEach(p=>p.classList.remove("on"));el.classList.add("on");dur=d}
+
+// YouTube search IDs per exercise type
+const YT_IDS = {
+  "sentadilla":"-G0f9bvg_Mg","press banca":"rT7DgCr-3pg","peso muerto":"op9kVnSso6Q",
+  "dominadas":"eGo4IYlbE5g","flexiones":"IODxDxX7oi4","zancadas":"D7KaRcUTQeE",
+  "plancha":"ASdvN_XEl_c","burpees":"auBLPXO8Nwk","mountain climbers":"nmwgirgXLYM",
+  "hip thrust":"SEdqd1n0cvg","curl biceps":"ykJmrZ5v0Oo","triceps":"nRiJVZDpdL0",
+  "default_calistenia":"DTvCggGKXKI","default_pesas":"gey73xiS8F4","default_yoga":"v7AYKMP6rOE",
+  "default_crossfit":"MLhhDXsxpEA","default_movilidad":"8VwufJrUhXQ","default_cardio":"ml6cT4AZdqI",
+  "default_pilates":"g-YcxD_3_yg","default_barra":"eGo4IYlbE5g","default_hiit":"ml6cT4AZdqI",
+  "default_lagartijas":"IODxDxX7oi4","default_funcional":"gey73xiS8F4","default_mujer":"SEdqd1n0cvg"
+};
+
+function getYTId(exName, discipline){
+  const n=exName.toLowerCase();
+  for(const[k,v] of Object.entries(YT_IDS)){if(!k.startsWith("default")&&n.includes(k))return v;}
+  return YT_IDS["default_"+discipline]||"DTvCggGKXKI";
+}
+
+function getImgUrl(exName){
+  const q=encodeURIComponent(exName+" exercise fitness");
+  return `https://source.unsplash.com/400x200/?${encodeURIComponent(exName+",fitness,exercise")}`;
+}
+
+async function genRoutine(){
+  if(!disc||loading)return;
+  if(!canDo('routines')){ showUpgradePopup('routines'); return; }
+  loading=true;
+  const btn=document.getElementById("genbtn");
+  btn.textContent="Generando tu rutina... ⏳";btn.disabled=true;
+  const out=document.getElementById("routine-out");
+  out.style.display="none";out.innerHTML="";
+
+  const discNames={calistenia:"Calistenia",pesas:"Pesas",yoga:"Yoga",crossfit:"CrossFit",movilidad:"Movilidad",cardio:"Cardio",pilates:"Pilates",barra:"Barra / Pull",hiit:"HIIT",lagartijas:"Push-Up Focus",funcional:"Funcional",mujer:"Fitness Femenino"};
+
+  try{
+    const sys=`Eres un experto en programación de ejercicio. Responde SOLO con JSON válido, sin texto extra, sin backticks.
+Formato exacto:
+{"objetivo":"descripción breve del plan","duracion":"X minutos","ejercicios":[{"nombre":"nombre del ejercicio","series":"3","reps":"12","descanso":"60s","tip":"consejo técnico corto en 1 oración"}],"consejo":"consejo del día específico"}
+Genera 5-6 ejercicios. Los nombres deben ser ejercicios reales y conocidos.`;
+    const msg=`Perfil: ${P.name}, ${P.age} años, ${P.gender}, ${P.weight}kg, ${P.height}cm. Objetivo: ${P.goal.label}. Nivel: ${P.level}. Disciplina: ${discNames[disc]}. Duración: ${dur} min.`;
+    const res=await claude(sys,[{role:"user",content:msg}]);
+    const clean=res.replace(/```json|```/g,"").trim();
+    const data=JSON.parse(clean);
+    lastRoutineData={...data, discipline:disc, discName:discNames[disc]};
+    trackUsage('routines');
+    renderRoutine(data, disc);
+  }catch(e){
+    out.innerHTML=`<div style="color:#ff6b6b;background:rgba(255,100,100,.1);border:1px solid rgba(255,100,100,.2);border-radius:12px;padding:14px">❌ Error: ${e.message}</div>`;
+    out.style.display="block";
+  }
+  btn.textContent="Generar rutina personalizada 🚀";btn.disabled=false;loading=false;
+}
+
+function renderRoutine(data, discipline){
+  const out=document.getElementById("routine-out");
+  let html=`<div class="routine-header fade">
+    <h3>🎯 ${data.objetivo}</h3>
+    <p>⏱️ ${data.duracion} &nbsp;•&nbsp; 🏋️ ${data.ejercicios.length} ejercicios</p>
+  </div>`;
+
+  data.ejercicios.forEach((ex,i)=>{
+    const ytId=getYTId(ex.nombre, discipline);
+    html+=`<div class="ex-card fade" id="exc${i}" style="animation-delay:${i*0.08}s">
+      <div class="ex-card-header" onclick="toggleEx(${i})">
+        <div class="ex-num">${i+1}</div>
+        <div class="ex-info">
+          <div class="ex-name">${ex.nombre}</div>
+          <div class="ex-meta">${ex.series} series × ${ex.reps} &nbsp;•&nbsp; Descanso: ${ex.descanso}</div>
+        </div>
+        <div class="ex-expand">▾</div>
+      </div>
+      <div class="ex-body">
+        <div class="ex-img-placeholder">
+          <span style="font-size:32px">▶️</span>
+          <span style="font-size:12px;color:#8A95A8">Toca para ver el video</span>
+        </div>
+        <div id="vid${i}" style="display:none">
+          <iframe class="ex-video" src="https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="ex-details">
+          <div class="ex-tip">💡 ${ex.tip}</div>
+          <div class="ex-stats">
+            <div class="ex-stat"><div class="ex-stat-val">${ex.series}</div><div class="ex-stat-lbl">SERIES</div></div>
+            <div class="ex-stat"><div class="ex-stat-val">${ex.reps}</div><div class="ex-stat-lbl">REPS</div></div>
+            <div class="ex-stat"><div class="ex-stat-val">${ex.descanso}</div><div class="ex-stat-lbl">DESCANSO</div></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  html+=`<div class="tip-card fade">
+    <div style="font-size:13px;font-weight:700;color:#FFD700;margin-bottom:6px">💡 Consejo del día</div>
+    <p>${data.consejo}</p>
+  </div>
+  <button class="pdf-btn fade" onclick="downloadPDF()">📄 Descargar rutina en PDF</button>`;
+
+  out.innerHTML=html;
+  out.style.display="block";
+
+  // Click on placeholder shows video
+  document.querySelectorAll(".ex-img-placeholder").forEach((el,i)=>{
+    el.addEventListener("click",()=>{
+      el.style.display="none";
+      document.getElementById("vid"+i).style.display="block";
+    });
+  });
+}
+
+function toggleEx(i){
+  const card=document.getElementById("exc"+i);
+  card.classList.toggle("open");
+}
+
+async function downloadPDF(){
+  if(!lastRoutineData){alert("Primero genera una rutina");return;}
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+  const W=210, margin=20;
+  let y=margin;
+
+  // Header
+  doc.setFillColor(8,12,20);
+  doc.rect(0,0,W,297,"F");
+  doc.setFillColor(15,25,40);
+  doc.rect(0,0,W,45,"F");
+
+  doc.setTextColor(77,255,160);
+  doc.setFontSize(24);doc.setFont("helvetica","bold");
+  doc.text("CRECE DIARIO",margin,22);
+  doc.setFontSize(12);doc.setFont("helvetica","normal");
+  doc.setTextColor(138,149,168);
+  doc.text("Rutina personalizada con IA",margin,30);
+  doc.setTextColor(200,210,220);
+  doc.setFontSize(10);
+  doc.text(`${P.name} • ${P.goal.label} • ${lastRoutineData.discName} • ${lastRoutineData.duracion}`,margin,38);
+  y=58;
+
+  // Objetivo
+  doc.setFillColor(20,35,25);
+  doc.roundedRect(margin,y,W-margin*2,18,3,3,"F");
+  doc.setTextColor(77,255,160);doc.setFontSize(11);doc.setFont("helvetica","bold");
+  doc.text("🎯  "+lastRoutineData.objetivo,margin+6,y+8);
+  doc.setTextColor(138,149,168);doc.setFontSize(9);doc.setFont("helvetica","normal");
+  doc.text(`${lastRoutineData.ejercicios.length} ejercicios  •  ${lastRoutineData.duracion}`,margin+6,y+14);
+  y+=26;
+
+  // Exercises
+  lastRoutineData.ejercicios.forEach((ex,i)=>{
+    if(y>250){doc.addPage();doc.setFillColor(8,12,20);doc.rect(0,0,W,297,"F");y=20;}
+    doc.setFillColor(18,26,40);
+    doc.roundedRect(margin,y,W-margin*2,32,3,3,"F");
+    doc.setFillColor(77,255,160);
+    doc.circle(margin+8,y+10,5,"F");
+    doc.setTextColor(8,12,20);doc.setFontSize(9);doc.setFont("helvetica","bold");
+    doc.text(String(i+1),margin+6,y+13);
+    doc.setTextColor(232,237,245);doc.setFontSize(12);doc.setFont("helvetica","bold");
+    doc.text(ex.nombre,margin+18,y+11);
+    doc.setTextColor(77,255,160);doc.setFontSize(9);doc.setFont("helvetica","normal");
+    doc.text(`${ex.series} series × ${ex.reps}  •  Descanso: ${ex.descanso}`,margin+18,y+18);
+    doc.setTextColor(138,149,168);doc.setFontSize(8);
+    const tipLines=doc.splitTextToSize("💡 "+ex.tip,W-margin*2-22);
+    doc.text(tipLines,margin+18,y+25);
+    y+=38;
+  });
+
+  // Consejo
+  if(y>250){doc.addPage();doc.setFillColor(8,12,20);doc.rect(0,0,W,297,"F");y=20;}
+  y+=4;
+  doc.setFillColor(25,22,10);
+  const tipLines2=doc.splitTextToSize(lastRoutineData.consejo,W-margin*2-16);
+  doc.roundedRect(margin,y,W-margin*2,14+tipLines2.length*5,3,3,"F");
+  doc.setTextColor(255,215,0);doc.setFontSize(10);doc.setFont("helvetica","bold");
+  doc.text("💡 Consejo del día",margin+6,y+9);
+  doc.setTextColor(200,190,100);doc.setFontSize(9);doc.setFont("helvetica","normal");
+  doc.text(tipLines2,margin+6,y+16);
+  y+=20+tipLines2.length*5;
+
+  // Footer
+  doc.setTextColor(40,55,75);doc.setFontSize(8);
+  doc.text("Generado por Crece Diario AI  •  crece-diario.netlify.app",margin,285);
+  doc.text(new Date().toLocaleDateString("es-MX"),W-margin-30,285);
+
+  doc.save(`rutina-${P.name.toLowerCase().replace(" ","-")}-${disc}.pdf`);
+}
+
+// HABITS
+function renderH(){
+  const list=document.getElementById("hlist");
+  list.innerHTML=habits.map(h=>`<div class="habit-item ${h.done?"done":""}" onclick="togH(${h.id})"><span style="font-size:20px">${h.icon}</span><span class="habit-text">${h.text}</span><div class="hcheck">${h.done?"✓":""}</div></div>`).join("");
+  updProg();
+}
+function togH(id){habits=habits.map(h=>h.id===id?{...h,done:!h.done}:h);renderH()}
+function updProg(){
+  const done=habits.filter(h=>h.done).length, pct=habits.length?Math.round(done/habits.length*100):0;
+  document.getElementById("pcirc").style.strokeDashoffset=163.4*(1-pct/100);
+  document.getElementById("ppct").textContent=pct+"%";
+  document.getElementById("plabel").textContent=done+"/"+habits.length+" completados";
+  document.getElementById("pmsg").textContent=pct===100?"🎉 ¡Día perfecto!":pct>=50?"💪 ¡Vas muy bien!":"¡Sigue adelante!";
+}
+function addH(){
+  const inp=document.getElementById("nhi");
+  if(!inp.value.trim())return;
+  if(!canDo('habits')){ showUpgradePopup('habits'); return; }
+  habits.push({id:Date.now(),text:inp.value.trim(),icon:"✅",done:false});
+  trackUsage('habits');
+  inp.value="";renderH();
+}
+async function getSugs(){
+  const btn=document.getElementById("sugbtn");
+  btn.textContent="Generando... ✨";btn.disabled=true;
+  try{
+    const res=await claude(`Genera exactamente 4 hábitos en JSON (solo JSON, sin backticks):\n[{"icon":"emoji","text":"hábito corto"}]\nOriginales, específicos, distintos a beber agua o leer.`,[{role:"user",content:`Usuario: ${P.name}, objetivo: ${P.goal.label}`}]);
+    const sugs=JSON.parse(res.replace(/```json|```/g,"").trim());
+    const w=document.getElementById("sugwrap");
+    w.style.display="block";
+    w.innerHTML='<div style="font-size:11px;color:#8A95A8;margin-bottom:10px;letter-spacing:1px">SUGERENCIAS DE LA IA</div>'+
+      sugs.map((s,i)=>`<div class="sug-item"><span style="font-size:20px">${s.icon}</span><span style="flex:1;font-size:14px">${s.text}</span><button class="add-sug" onclick="addSug('${s.icon}','${s.text.replace(/'/g,"\\'")}',this)">+ Añadir</button></div>`).join("");
+  }catch(e){alert("Error: "+e.message);}
+  btn.textContent="💡 Sugerir hábitos con IA";btn.disabled=false;
+}
+function addSug(icon,text,btn){habits.push({id:Date.now(),text,icon,done:false});renderH();btn.parentElement.remove();}
+
+// COACH
+function addBot(t){const m=document.getElementById("msgs");m.innerHTML+=`<div class="mwrap fade"><div class="mavatar">⚡</div><div class="mbubble bot">${t}</div></div>`;m.scrollTop=m.scrollHeight}
+function addUsr(t){const m=document.getElementById("msgs");m.innerHTML+=`<div class="mwrap u fade"><div class="mbubble usr">${t}</div></div>`;m.scrollTop=m.scrollHeight}
+function showTyping(){const m=document.getElementById("msgs");m.innerHTML+=`<div class="mwrap fade" id="typ"><div class="mavatar">⚡</div><div class="mbubble bot"><div class="typing"><div class="dot" style="animation-delay:0s"></div><div class="dot" style="animation-delay:.2s"></div><div class="dot" style="animation-delay:.4s"></div></div></div></div>`;m.scrollTop=m.scrollHeight}
+function hideTyping(){const t=document.getElementById("typ");if(t)t.remove()}
+function usb(){const v=document.getElementById("ci").value.trim();document.getElementById("sb").className="sbtn "+(v&&!loading?"on":"off")}
+function sendChat(){const inp=document.getElementById("ci"),t=inp.value.trim();if(!t||loading)return;inp.value="";inp.style.height="auto";usb();doSend(t)}
+async function doSend(text){
+  if(loading)return;
+  if(!canDo('messages')){ showUpgradePopup('messages'); return; }
+  loading=true;usb();addUsr(text);chatH.push({role:"user",content:text});showTyping();
+  try{
+    const sys=`Eres FitCoach AI, entrenador personal de élite. Hablas en español, cercano y motivador. Directo y científico.\nPerfil: ${P.name}, ${P.age} años, ${P.gender}, ${P.weight}kg, ${P.height}cm, objetivo: ${P.goal.label}, nivel: ${P.level}.`;
+    const res=await claude(sys,chatH);hideTyping();chatH.push({role:"assistant",content:res});addBot(res);trackUsage('messages');
+  }catch(e){hideTyping();addBot("❌ Error: "+e.message);}
+  loading=false;usb();
+}
+</script>
+</body>
+</html>
