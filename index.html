@@ -2,8 +2,19 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>Crece Diario — Tu Coach AI</title>
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json"/>
+<meta name="theme-color" content="#080C14"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Crece Diario"/>
+<link rel="apple-touch-icon" href="/icon.svg"/>
+<meta name="description" content="Tu entrenador personal con IA. Plan semanal, hábitos y coach 24/7."/>
+
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -1276,6 +1287,15 @@ async function getSugs(){
   btn.textContent='💡 Sugerir hábitos con IA'; btn.disabled=false;
 }
 function addSug(icon,text,btn){habits.push({id:Date.now(),text,icon,done:false});renderH();btn.parentElement.remove();}
+
+// ── PWA SERVICE WORKER ──
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('/sw.js')
+      .then(()=>console.log('SW registrado ✅'))
+      .catch(e=>console.log('SW error:',e));
+  });
+}
 
 // ── COACH ──
 function addBot(t){const m=document.getElementById('msgs');m.innerHTML+=`<div class="mwrap fade"><div class="mavatar">⚡</div><div class="mbubble bot">${t}</div></div>`;m.scrollTop=m.scrollHeight}
