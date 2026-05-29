@@ -1,5 +1,6 @@
+const https = require('https');
+
 exports.handler = async (event) => {
-  // Solo POST
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
@@ -8,34 +9,54 @@ exports.handler = async (event) => {
   if (!apiKey) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: { message: 'API key no configurada en Netlify.' } })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: { message: 'ANTHROPIC_API_KEY no configurada en Netlify.' } })
     };
   }
 
+  let payload;
   try {
-    const payload = JSON.parse(event.body);
+    payload = JSON.parse(event.body);
+  } catch(e) {
+    return { statusCode: 400, body: JSON.stringify({ error: { message: 'Invalid JSON body' } }) };
+  }
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const bodyStr = JSON.stringify(payload);
+
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'api.anthropic.com',
+      path: '/v1/messages',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify(payload)
+        'anthropic-version': '2023-06-01',
+        'Content-Length': Buffer.byteLength(bodyStr)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        resolve({
+          statusCode: res.statusCode,
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+          body: data
+        });
+      });
     });
 
-    const data = await response.json();
+    req.on('error', (e) => {
+      resolve({
+        statusCode: 500,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error: { message: e.message } })
+      });
+    });
 
-    return {
-      statusCode: response.status,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    };
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: { message: err.message } })
-    };
-  }
+    req.write(bodyStr);
+    req.end();
+  });
 };
