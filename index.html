@@ -32,6 +32,59 @@ input::placeholder,textarea::placeholder{color:#3a4555}
 .glow1{position:fixed;width:500px;height:500px;border-radius:50%;filter:blur(140px);opacity:.06;background:#4DFFA0;top:-150px;right:-150px;pointer-events:none;z-index:0}
 .glow2{position:fixed;width:350px;height:350px;border-radius:50%;filter:blur(120px);opacity:.04;background:#00C8FF;bottom:0;left:-100px;pointer-events:none;z-index:0}
 
+/* ── INTRO SLIDES ── */
+#intro{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;z-index:1;background:#080C14}
+.intro-skip{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:7px 16px;color:#8A95A8;font-size:13px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;z-index:10}
+.intro-slides-wrap{flex:1;overflow:hidden;position:relative}
+.intro-slides{display:flex;height:100%;transition:transform .45s cubic-bezier(.4,0,.2,1)}
+.intro-slide{flex-shrink:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;text-align:center}
+/* Slide 1 */
+.is1-badge{background:rgba(77,255,160,.12);border:1px solid rgba(77,255,160,.3);border-radius:100px;padding:7px 18px;font-size:12px;color:#4DFFA0;font-weight:700;letter-spacing:.5px;margin-bottom:28px}
+.is1-logo{font-size:56px;font-weight:800;line-height:1.1;margin-bottom:8px}
+.is1-logo span{color:#4DFFA0}
+.is1-bolt{font-size:60px;margin-bottom:16px}
+.is1-tagline{font-size:16px;color:#8A95A8;line-height:1.6;margin-bottom:32px}
+.is1-pills{display:flex;flex-direction:column;gap:10px;width:100%}
+.is1-pill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;text-align:left}
+.is1-pill span:first-child{font-size:22px}
+/* Slide 2 */
+.is2-title{font-size:28px;font-weight:800;line-height:1.2;margin-bottom:8px}
+.is2-sub{font-size:14px;color:#8A95A8;margin-bottom:28px;line-height:1.5}
+.is2-mockup{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px;width:100%;margin-bottom:20px}
+.is2-week{display:flex;gap:6px;justify-content:center;margin-bottom:14px}
+.is2-day{flex:1;height:52px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:9px;font-weight:700;color:#8A95A8;border:1.5px solid rgba(255,255,255,.08)}
+.is2-day.active{background:rgba(77,255,160,.12);border-color:rgba(77,255,160,.4);color:#4DFFA0}
+.is2-day.rest{opacity:.4}
+.is2-day .day-em{font-size:14px}
+.is2-excard{background:rgba(255,255,255,.05);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px;text-align:left}
+.is2-exnum{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#4DFFA0,#00C87A);color:#080C14;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.is2-exname{font-size:13px;font-weight:600}
+.is2-exmeta{font-size:11px;color:#8A95A8;margin-top:1px}
+/* Slide 3 */
+.is3-title{font-size:26px;font-weight:800;margin-bottom:6px}
+.is3-sub{font-size:14px;color:#8A95A8;margin-bottom:24px}
+.is3-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.is3-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px 12px;text-align:center}
+.is3-em{font-size:28px;margin-bottom:7px}
+.is3-label{font-size:13px;font-weight:700;margin-bottom:3px}
+.is3-desc{font-size:11px;color:#8A95A8;line-height:1.4}
+/* Slide 4 */
+.is4-title{font-size:28px;font-weight:800;margin-bottom:6px}
+.is4-sub{font-size:14px;color:#8A95A8;margin-bottom:24px}
+.is4-free{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:18px;width:100%;margin-bottom:12px;text-align:left}
+.is4-pro{background:linear-gradient(135deg,rgba(77,255,160,.1),rgba(0,200,122,.05));border:1.5px solid rgba(77,255,160,.35);border-radius:18px;padding:18px;width:100%;text-align:left}
+.is4-plan-name{font-size:16px;font-weight:800;margin-bottom:4px}
+.is4-plan-price{font-size:13px;color:#8A95A8;margin-bottom:10px}
+.is4-features{display:flex;flex-direction:column;gap:5px}
+.is4-feat{font-size:12px;color:#B0BAC8;display:flex;align-items:center;gap:7px}
+/* Dots & nav */
+.intro-bottom{padding:20px 28px 36px;flex-shrink:0}
+.intro-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
+.intro-dot{width:8px;height:8px;border-radius:100px;background:rgba(255,255,255,.15);transition:all .3s}
+.intro-dot.on{width:24px;background:#4DFFA0}
+.intro-next-btn{width:100%;padding:15px;border-radius:16px;border:none;font-size:16px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;background:linear-gradient(135deg,#4DFFA0,#00C87A);color:#080C14;box-shadow:0 4px 30px rgba(77,255,160,.25);transition:all .2s}
+.intro-next-btn:active{transform:scale(.98)}
+
 /* ONBOARDING */
 #onboarding{flex:1;padding:28px 24px;display:flex;flex-direction:column;position:relative;z-index:1}
 .prog-bar{display:flex;gap:6px;margin-bottom:44px}
@@ -328,8 +381,100 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 <div id="app">
 <div class="glow1"></div><div class="glow2"></div>
 
+<!-- INTRO SLIDES -->
+<div id="intro">
+  <button class="intro-skip" onclick="skipIntro()">Saltar ✕</button>
+
+  <div class="intro-slides-wrap">
+    <div class="intro-slides" id="intro-slides">
+
+      <!-- SLIDE 1: Bienvenida -->
+      <div class="intro-slide">
+        <div class="is1-badge">✨ Tu entrenador personal con IA</div>
+        <div class="is1-logo">Crece<br><span>Diario</span></div>
+        <div class="is1-bolt">⚡</div>
+        <div class="is1-tagline">El coach que se adapta a cómo<br>te sientes cada día</div>
+        <div class="is1-pills">
+          <div class="is1-pill"><span>🗓️</span><span>Plan semanal personalizado con IA</span></div>
+          <div class="is1-pill"><span>📊</span><span>Seguimiento de progreso real</span></div>
+          <div class="is1-pill"><span>⚡</span><span>Coach IA disponible 24/7</span></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: Plan Semanal -->
+      <div class="intro-slide">
+        <div class="is2-title">Tu plan de<br>la semana 🗓️</div>
+        <div class="is2-sub">La IA genera 5 entrenamientos<br>personalizados para ti cada semana</div>
+        <div class="is2-mockup">
+          <div class="is2-week">
+            <div class="is2-day"><div class="day-em">💪</div>LUN</div>
+            <div class="is2-day active"><div class="day-em">🔥</div>MAR</div>
+            <div class="is2-day"><div class="day-em">🏃</div>MIÉ</div>
+            <div class="is2-day"><div class="day-em">🧘</div>JUE</div>
+            <div class="is2-day"><div class="day-em">⚡</div>VIE</div>
+            <div class="is2-day rest"><div class="day-em">😴</div>SÁB</div>
+            <div class="is2-day rest"><div class="day-em">😴</div>DOM</div>
+          </div>
+          <div class="is2-excard"><div class="is2-exnum">1</div><div><div class="is2-exname">Press de banca</div><div class="is2-exmeta">4 series × 10 reps · 60s</div></div></div>
+          <div class="is2-excard"><div class="is2-exnum">2</div><div><div class="is2-exname">Aperturas con mancuernas</div><div class="is2-exmeta">3 series × 12 reps · 45s</div></div></div>
+        </div>
+        <div style="font-size:12px;color:#8A95A8">⏱️ Timer de descanso con voz incluido</div>
+      </div>
+
+      <!-- SLIDE 3: Funciones únicas -->
+      <div class="intro-slide">
+        <div class="is3-title">Funciones que<br>no existen en otra app</div>
+        <div class="is3-sub">Diseñado para que nunca dejes<br>de entrenar</div>
+        <div class="is3-grid">
+          <div class="is3-card"><div class="is3-em">☀️</div><div class="is3-label">Check-in diario</div><div class="is3-desc">La IA ajusta tu entreno según cómo dormiste y tu energía</div></div>
+          <div class="is3-card"><div class="is3-em">🥗</div><div class="is3-label">Nutrición sync</div><div class="is3-desc">Qué comer antes y después de cada entrenamiento</div></div>
+          <div class="is3-card"><div class="is3-em">📈</div><div class="is3-label">Progresión IA</div><div class="is3-desc">Cada semana sube la dificultad automáticamente</div></div>
+          <div class="is3-card"><div class="is3-em">🚨</div><div class="is3-label">Modo Emergencia</div><div class="is3-desc">Boda en 2 semanas? Plan express inteligente</div></div>
+          <div class="is3-card"><div class="is3-em">✈️</div><div class="is3-label">Modo Viaje</div><div class="is3-desc">Rutinas sin equipo para hotel donde sea</div></div>
+          <div class="is3-card"><div class="is3-em">📊</div><div class="is3-label">Heatmap</div><div class="is3-desc">Visualiza 10 semanas de progreso de un vistazo</div></div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: CTA -->
+      <div class="intro-slide">
+        <div class="is4-title">Empieza gratis<br>hoy mismo 🚀</div>
+        <div class="is4-sub">Sin tarjeta de crédito · Sin compromisos</div>
+        <div class="is4-free">
+          <div class="is4-plan-name">Plan Gratuito</div>
+          <div class="is4-plan-price">$0 · Para siempre</div>
+          <div class="is4-features">
+            <div class="is4-feat"><span style="color:#4DFFA0">✓</span> 3 planes semanales / mes</div>
+            <div class="is4-feat"><span style="color:#4DFFA0">✓</span> 10 mensajes al coach</div>
+            <div class="is4-feat"><span style="color:#4DFFA0">✓</span> Todas las funciones básicas</div>
+          </div>
+        </div>
+        <div class="is4-pro">
+          <div class="is4-plan-name" style="color:#4DFFA0">Plan Pro ⚡</div>
+          <div class="is4-plan-price">Desde $9/mes · Todo ilimitado</div>
+          <div class="is4-features">
+            <div class="is4-feat"><span style="color:#4DFFA0">✓</span> Planes ilimitados</div>
+            <div class="is4-feat"><span style="color:#4DFFA0">✓</span> Coach sin límites 24/7</div>
+            <div class="is4-feat"><span style="color:#4DFFA0">✓</span> Hábitos ilimitados</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="intro-bottom">
+    <div class="intro-dots" id="intro-dots">
+      <div class="intro-dot on"></div>
+      <div class="intro-dot"></div>
+      <div class="intro-dot"></div>
+      <div class="intro-dot"></div>
+    </div>
+    <button class="intro-next-btn" id="intro-next-btn" onclick="nextIntroSlide()">Siguiente →</button>
+  </div>
+</div>
+
 <!-- ONBOARDING -->
-<div id="onboarding">
+<div id="onboarding" style="display:none">
   <div class="prog-bar"><div id="p0" class="on"></div><div id="p1"></div><div id="p2"></div></div>
   <div id="s0">
     <div class="step-title">Bienvenido a<br>Crece Diario ⚡</div>
@@ -678,6 +823,44 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 </div>
 
 <script>
+// ── INTRO SLIDES ──
+let introIdx=0;
+const INTRO_TOTAL=4;
+
+(function initIntro(){
+  if(localStorage.getItem('cd_intro_seen')){
+    document.getElementById('intro').style.display='none';
+    document.getElementById('onboarding').style.display='flex';
+    return;
+  }
+  // Swipe support
+  const wrap=document.getElementById('intro-slides');
+  let sx=0;
+  wrap.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  wrap.addEventListener('touchend',e=>{
+    const dx=sx-e.changedTouches[0].clientX;
+    if(Math.abs(dx)>50){ dx>0?nextIntroSlide():prevIntroSlide(); }
+  },{passive:true});
+})();
+
+function updateIntroSlide(){
+  document.getElementById('intro-slides').style.transform=`translateX(-${introIdx*100}%)`;
+  document.querySelectorAll('.intro-dot').forEach((d,i)=>d.classList.toggle('on',i===introIdx));
+  document.getElementById('intro-next-btn').textContent=introIdx===INTRO_TOTAL-1?'¡Empezar gratis! 🚀':'Siguiente →';
+}
+function nextIntroSlide(){
+  if(introIdx<INTRO_TOTAL-1){ introIdx++; updateIntroSlide(); }
+  else skipIntro();
+}
+function prevIntroSlide(){
+  if(introIdx>0){ introIdx--; updateIntroSlide(); }
+}
+function skipIntro(){
+  localStorage.setItem('cd_intro_seen','1');
+  document.getElementById('intro').style.display='none';
+  document.getElementById('onboarding').style.display='flex';
+}
+
 // ── STRIPE ──
 const STRIPE = {
   pro:      'https://buy.stripe.com/test_7sY00k1HRdoO5IddwNg3600',
