@@ -13,16 +13,15 @@ body{background:#080C14;font-family:'Outfit',sans-serif;color:#E8EDF5;min-height
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:#1a2535;border-radius:10px}
 input,textarea{color-scheme:dark;font-family:'Outfit',sans-serif}
 input::placeholder,textarea::placeholder{color:#3a4555}
-
 @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
 .fade{animation:fadeUp .4s ease both}
-
 .glow1{position:fixed;width:500px;height:500px;border-radius:50%;filter:blur(140px);opacity:.06;background:#4DFFA0;top:-150px;right:-150px;pointer-events:none;z-index:0}
 .glow2{position:fixed;width:350px;height:350px;border-radius:50%;filter:blur(120px);opacity:.04;background:#00C8FF;bottom:0;left:-100px;pointer-events:none;z-index:0}
 
-/* ── ONBOARDING ── */
+/* ONBOARDING */
 #onboarding{flex:1;padding:28px 24px;display:flex;flex-direction:column;position:relative;z-index:1}
 .prog-bar{display:flex;gap:6px;margin-bottom:44px}
 .prog-bar div{height:3px;flex:1;border-radius:10px;background:rgba(255,255,255,.08);transition:background .4s}
@@ -46,10 +45,9 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 .btn-p:not(:disabled):active{transform:scale(.98)}
 .btn-s{width:100%;padding:14px;border-radius:16px;border:1.5px solid rgba(255,255,255,.1);font-size:15px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;background:rgba(255,255,255,.04);color:#E8EDF5;transition:all .2s}
 
-/* ── MAIN ── */
+/* MAIN */
 #main{flex:1;display:none;flex-direction:column;overflow:hidden;position:relative;z-index:1}
-
-.hdr{padding:16px 20px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.05)}
+.hdr{padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.05)}
 .hdr-left .greeting{font-size:11px;color:#8A95A8;letter-spacing:.8px;margin-bottom:3px}
 .hdr-left .uname{font-size:20px;font-weight:800;line-height:1}
 .hdr-right{display:flex;align-items:center;gap:8px}
@@ -60,14 +58,14 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 .plan-pill.lifetime{background:rgba(255,200,0,.1);border-color:rgba(255,200,0,.3);color:#FFD700}
 .goal-badge{padding:5px 12px;border-radius:100px;background:rgba(77,255,160,.08);border:1px solid rgba(77,255,160,.18);font-size:11px;color:#4DFFA0;font-weight:600;white-space:nowrap}
 
-/* ── SCREENS ── */
+/* SCREENS */
 .screen{flex:1;overflow-y:auto;padding:16px 20px 100px;display:none}
 .screen.on{display:block}
 .stitle{font-size:22px;font-weight:800;margin-bottom:4px}
 .ssub{font-size:13px;color:#8A95A8;margin-bottom:20px}
 .slabel{font-size:10px;color:#8A95A8;margin-bottom:10px;letter-spacing:1.2px;margin-top:20px;font-weight:600;text-transform:uppercase}
 
-/* Usage bar */
+/* Usage row */
 .usage-row{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:12px 14px;margin-bottom:20px}
 .usage-item{flex:1;text-align:center}
 .usage-val{font-size:15px;font-weight:800;color:#4DFFA0}
@@ -77,7 +75,7 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 .usage-div{width:1px;height:28px;background:rgba(255,255,255,.07);flex-shrink:0}
 .upgrade-chip{flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(77,255,160,.1);border:1.5px solid rgba(77,255,160,.25);color:#4DFFA0;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
 
-/* Discipline grid */
+/* Discipline */
 .disc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .dc{padding:14px 8px;border-radius:14px;cursor:pointer;text-align:center;border:1.5px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);transition:all .2s}
 .dc.on{border-color:#4DFFA0;background:rgba(77,255,160,.08)}
@@ -85,29 +83,23 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 .de{font-size:24px}.dl{font-size:11px;margin-top:5px;font-weight:600;color:#8A95A8}
 .dur-row{display:flex;gap:8px;flex-wrap:wrap}
 
-/* Week plan */
+/* Plan cards */
 .gen-summary{background:linear-gradient(135deg,rgba(77,255,160,.08),rgba(0,200,122,.04));border:1px solid rgba(77,255,160,.2);border-radius:18px;padding:18px;margin-bottom:18px}
 .gen-summary h3{font-size:16px;font-weight:700;color:#4DFFA0;margin-bottom:5px}
-.gen-summary p{font-size:13px;color:#8A95A8;line-height:1.5}
 .gen-tags{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
 .gen-tag{font-size:11px;color:#4DFFA0;font-weight:600}
-
 .week-tabs{display:flex;gap:6px;margin-bottom:18px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .week-tabs::-webkit-scrollbar{display:none}
 .wday{flex-shrink:0;width:48px;height:58px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);transition:all .2s}
 .wday.on{border-color:#4DFFA0;background:rgba(77,255,160,.1)}
 .wday.rest{border-color:rgba(255,255,255,.05);background:transparent;cursor:default;opacity:.5}
 .wday.today{box-shadow:0 0 0 2px rgba(77,255,160,.35)}
+.wday.done{border-color:rgba(77,255,160,.5);background:rgba(77,255,160,.15)}
 .wday-name{font-size:10px;font-weight:700;color:#8A95A8;letter-spacing:.5px}
 .wday.on .wday-name,.wday.on .wday-num{color:#4DFFA0}
 .wday-num{font-size:15px;font-weight:800}
-
 .day-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:100px;background:rgba(77,255,160,.08);border:1px solid rgba(77,255,160,.2);font-size:13px;color:#4DFFA0;font-weight:600;margin-bottom:14px}
-
 .rest-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:36px 20px;text-align:center;margin-top:8px}
-.rest-card .rest-em{font-size:52px;margin-bottom:14px}
-.rest-card h3{font-size:18px;font-weight:700;margin-bottom:8px}
-.rest-card p{font-size:13px;color:#8A95A8;line-height:1.65}
 
 /* Exercise cards */
 .ex-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;margin-bottom:10px;overflow:hidden;transition:all .2s}
@@ -120,20 +112,76 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 .ex-card.open .ex-expand{transform:rotate(180deg)}
 .ex-body{display:none;border-top:1px solid rgba(255,255,255,.05)}
 .ex-card.open .ex-body{display:block}
-.ex-video{width:100%;height:200px;border:none}
-.ex-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,#0d1520,#121e30);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;cursor:pointer}
 .ex-details{padding:14px 16px}
 .ex-tip{font-size:13px;color:#B0BAC8;line-height:1.5;background:rgba(77,255,160,.04);border-left:3px solid #4DFFA0;padding:10px 12px;border-radius:0 10px 10px 0;margin-bottom:10px}
-.ex-stats{display:flex;gap:8px}
+.ex-stats{display:flex;gap:8px;margin-bottom:12px}
 .ex-stat{flex:1;background:rgba(255,255,255,.04);border-radius:10px;padding:10px;text-align:center}
 .ex-stat-val{font-size:16px;font-weight:700;color:#4DFFA0}
 .ex-stat-lbl{font-size:9px;color:#8A95A8;margin-top:2px;letter-spacing:.5px}
+
+/* YouTube link button */
+.yt-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;border-radius:12px;background:rgba(255,0,0,.08);border:1px solid rgba(255,80,80,.2);color:#FF8080;font-size:13px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;text-decoration:none;transition:all .2s;margin-bottom:10px}
+.yt-btn:hover{background:rgba(255,0,0,.14)}
+
+/* Voice Timer */
+.timer-row{display:flex;align-items:center;gap:10px}
+.timer-btn{flex:1;padding:10px;border-radius:12px;background:rgba(77,255,160,.08);border:1.5px solid rgba(77,255,160,.2);color:#4DFFA0;font-size:13px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;text-align:center}
+.timer-btn:disabled{opacity:.5;cursor:not-allowed}
+.timer-display{flex:1;text-align:center;font-size:22px;font-weight:800;color:#4DFFA0;display:none;font-variant-numeric:tabular-nums}
+.timer-display.urgent{color:#FF4B4B;animation:bounce .5s infinite}
+
+/* Daily check-in */
+.checkin-card{background:rgba(255,200,0,.05);border:1px solid rgba(255,200,0,.18);border-radius:16px;padding:14px 16px;margin-bottom:16px}
+.checkin-title{font-size:13px;font-weight:700;color:#FFD700;margin-bottom:10px}
+.checkin-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.checkin-label{font-size:12px;color:#8A95A8}
+.checkin-emojis{display:flex;gap:6px}
+.ci-em{font-size:20px;cursor:pointer;opacity:.35;transition:all .2s;border-radius:8px;padding:2px}
+.ci-em.on{opacity:1;transform:scale(1.2)}
+.checkin-save{width:100%;padding:9px;border-radius:10px;background:rgba(255,200,0,.12);border:1px solid rgba(255,200,0,.25);color:#FFD700;font-size:13px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;margin-top:4px}
+.checkin-done{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.ci-badge{padding:4px 10px;border-radius:100px;font-size:12px;font-weight:600;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+
+/* Nutrition */
+.nutrition-card{background:rgba(0,200,100,.05);border:1px solid rgba(0,200,100,.18);border-radius:16px;padding:14px 16px;margin-top:12px}
+.nutrition-title{font-size:13px;font-weight:700;color:#4DFFA0;margin-bottom:10px}
+.nutri-btn{width:100%;padding:10px;border-radius:12px;background:rgba(77,255,160,.1);border:1px solid rgba(77,255,160,.25);color:#4DFFA0;font-size:13px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
+.nutri-content{font-size:13px;color:#B0BAC8;line-height:1.7;margin-top:10px;display:none;white-space:pre-wrap}
+
+/* Tip card */
 .tip-card{background:rgba(255,200,0,.05);border:1px solid rgba(255,200,0,.15);border-radius:14px;padding:14px 16px;margin:14px 0}
 .tip-card p{font-size:13px;color:#E8D080;line-height:1.6}
 .pdf-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border-radius:14px;border:1.5px solid rgba(77,255,160,.25);background:rgba(77,255,160,.05);color:#4DFFA0;font-size:14px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;margin-top:6px}
-.pdf-btn:active{background:rgba(77,255,160,.1)}
+.mark-done-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:14px;border:1.5px solid rgba(77,255,160,.3);background:rgba(77,255,160,.07);color:#4DFFA0;font-size:14px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;margin-top:8px}
+.mark-done-btn.done{background:rgba(77,255,160,.15);border-color:#4DFFA0}
 
-/* ── HABITS ── */
+/* PROGRESS SCREEN */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.stat-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;text-align:center}
+.stat-val{font-size:28px;font-weight:800;color:#4DFFA0}
+.stat-lbl{font-size:11px;color:#8A95A8;margin-top:4px;letter-spacing:.5px}
+.heatmap-wrap{margin-bottom:20px}
+.heatmap-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.hm-cell{aspect-ratio:1;border-radius:4px;background:rgba(255,255,255,.05);cursor:default;transition:all .2s}
+.hm-cell.hab{background:rgba(77,255,160,.2)}
+.hm-cell.work{background:rgba(77,255,160,.6)}
+.hm-cell.both{background:#4DFFA0}
+.hm-cell.today{box-shadow:0 0 0 2px #4DFFA0}
+.hm-legend{display:flex;gap:14px;margin-top:8px;justify-content:flex-end;flex-wrap:wrap}
+.hm-leg-item{display:flex;align-items:center;gap:5px;font-size:10px;color:#8A95A8}
+.hm-leg-dot{width:10px;height:10px;border-radius:3px}
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.action-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;text-align:center;cursor:pointer;transition:all .2s}
+.action-card:active{transform:scale(.97)}
+.action-card .ac-em{font-size:28px;margin-bottom:8px}
+.action-card .ac-title{font-size:13px;font-weight:700}
+.action-card .ac-sub{font-size:11px;color:#8A95A8;margin-top:3px}
+.action-card.emergency{border-color:rgba(255,75,75,.25);background:rgba(255,75,75,.04)}
+.action-card.review{border-color:rgba(77,255,160,.25);background:rgba(77,255,160,.04)}
+.action-card.travel{border-color:rgba(0,200,255,.25);background:rgba(0,200,255,.04)}
+.action-card.progress-mode{border-color:rgba(255,200,0,.25);background:rgba(255,200,0,.04)}
+
+/* HABITS */
 .prog-wrap{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:18px;margin-bottom:20px}
 .habit-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;cursor:pointer;border:1.5px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);transition:all .2s;margin-bottom:8px}
 .habit-item.done{border-color:rgba(77,255,160,.2);background:rgba(77,255,160,.06)}
@@ -148,7 +196,7 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 .sug-item{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;background:rgba(255,200,0,.04);border:1px solid rgba(255,200,0,.12);margin-bottom:8px;animation:fadeUp .3s ease}
 .add-sug{padding:6px 14px;border-radius:8px;background:rgba(77,255,160,.12);border:1px solid rgba(77,255,160,.25);color:#4DFFA0;cursor:pointer;font-size:12px;font-family:'Outfit',sans-serif;font-weight:600}
 
-/* ── COACH ── */
+/* COACH */
 #coach-screen{display:none;flex-direction:column;overflow:hidden;flex:1}
 #coach-screen.on{display:flex}
 .msgs{flex:1;overflow-y:auto;padding:16px 20px 0}
@@ -171,14 +219,14 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 .sbtn.on{background:linear-gradient(135deg,#4DFFA0,#00C87A);color:#080C14}
 .sbtn.off{background:rgba(255,255,255,.05);color:#444;cursor:not-allowed}
 
-/* ── NAV ── */
+/* NAV (4 tabs) */
 .bnav{display:flex;position:sticky;bottom:0;background:rgba(8,12,20,.96);backdrop-filter:blur(24px);border-top:1px solid rgba(255,255,255,.06);padding:10px 0 6px;z-index:20;flex-shrink:0}
 .nbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:transparent;border:none;cursor:pointer;padding:6px 0;font-family:'Outfit',sans-serif}
-.ni{font-size:22px}.nl{font-size:9px;font-weight:700;letter-spacing:.8px;color:#454f60}
+.ni{font-size:20px}.nl{font-size:8px;font-weight:700;letter-spacing:.6px;color:#454f60}
 .nbtn.on .nl{color:#4DFFA0}
 .ndot{width:4px;height:4px;border-radius:50%;background:#4DFFA0}
 
-/* ── PRICING OVERLAY ── */
+/* PRICING OVERLAY */
 .overlay{position:fixed;inset:0;background:rgba(4,8,16,.93);backdrop-filter:blur(12px);z-index:100;overflow-y:auto;padding:24px 0 48px;display:none}
 .overlay.on{display:block}
 .pricing-wrap{max-width:480px;margin:0 auto;padding:0 20px}
@@ -211,7 +259,7 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 .btn-plan.current{background:rgba(77,255,160,.07);border:1.5px solid rgba(77,255,160,.25);color:#4DFFA0;cursor:default}
 .overlay-close{display:block;text-align:center;color:#555;background:transparent;border:none;font-family:'Outfit',sans-serif;font-size:14px;cursor:pointer;margin:14px auto 0;padding:10px 24px}
 
-/* ── UPGRADE POPUP ── */
+/* UPGRADE POPUP */
 .popup-bg{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:200;display:none;align-items:flex-end;justify-content:center}
 .popup-bg.on{display:flex}
 .popup-sheet{background:#0C1622;border:1px solid rgba(255,255,255,.09);border-radius:26px 26px 0 0;padding:28px 20px 44px;width:100%;max-width:480px;animation:slideUp .32s ease}
@@ -228,6 +276,14 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 .popup-opt-price.anual{color:#00C8FF}
 .popup-opt-price.lifetime{color:#FFD700}
 .popup-opt-name{font-size:11px;color:#8A95A8;margin-top:3px;font-weight:600}
+
+/* GENERIC MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:150;display:none;align-items:flex-end;justify-content:center}
+.modal-bg.on{display:flex}
+.modal-sheet{background:#0C1622;border:1px solid rgba(255,255,255,.09);border-radius:26px 26px 0 0;padding:28px 20px 44px;width:100%;max-width:480px;animation:slideUp .32s ease;max-height:85vh;overflow-y:auto}
+.modal-title{font-size:20px;font-weight:800;margin-bottom:6px}
+.modal-sub{font-size:13px;color:#8A95A8;margin-bottom:20px;line-height:1.5}
+.modal-close{position:absolute;top:20px;right:20px;background:transparent;border:none;color:#555;font-size:20px;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
@@ -237,7 +293,6 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 <!-- ONBOARDING -->
 <div id="onboarding">
   <div class="prog-bar"><div id="p0" class="on"></div><div id="p1"></div><div id="p2"></div></div>
-
   <div id="s0">
     <div class="step-title">Bienvenido a<br>Crece Diario ⚡</div>
     <div class="step-sub">Tu entrenador personal con IA</div>
@@ -250,7 +305,6 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
     </div>
     <button class="btn-p" id="b0" disabled onclick="gs(1)">Continuar →</button>
   </div>
-
   <div id="s1" style="display:none">
     <div class="step-title">Tu cuerpo 💪</div>
     <div class="step-sub">Para crear tu plan perfecto</div>
@@ -264,7 +318,6 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
     <div class="level-card" id="la" onclick="sl('avanzado')"><div><div class="lv-name" style="font-weight:700;font-size:15px">Avanzado</div><div style="font-size:12px;color:#8A95A8;margin-top:2px">Más de 2 años</div></div><span style="font-size:22px">🔥</span></div>
     <button class="btn-p" id="b1" disabled onclick="gs(2)">Continuar →</button>
   </div>
-
   <div id="s2" style="display:none">
     <div class="step-title">¿Tu objetivo? 🎯</div>
     <div class="step-sub">Haremos todo enfocado en esto</div>
@@ -293,12 +346,10 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
     </div>
   </div>
 
-  <!-- PLAN SEMANAL -->
+  <!-- PLAN SCREEN -->
   <div class="screen on" id="plan-screen">
     <div class="stitle">Plan Semanal 🗓️</div>
     <div class="ssub" id="week-label">—</div>
-
-    <!-- Usage row (free only) -->
     <div class="usage-row" id="usage-row">
       <div class="usage-item"><div class="usage-val" id="u-plans">0/3</div><div class="usage-lbl">PLANES</div></div>
       <div class="usage-div"></div>
@@ -307,8 +358,6 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
       <div class="usage-item"><div class="usage-val" id="u-habs">0/5</div><div class="usage-lbl">HÁBITOS</div></div>
       <button class="upgrade-chip" onclick="showPricing()">⚡ Pro</button>
     </div>
-
-    <!-- Config panel -->
     <div id="plan-config">
       <div class="slabel">Disciplina</div>
       <div class="disc-grid">
@@ -321,6 +370,7 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
         <div class="dc" onclick="sd(this,'pilates')"><div class="de">🌿</div><div class="dl">Pilates</div></div>
         <div class="dc" onclick="sd(this,'hiit')"><div class="de">🔥</div><div class="dl">HIIT</div></div>
         <div class="dc" onclick="sd(this,'funcional')"><div class="de">🎯</div><div class="dl">Funcional</div></div>
+        <div class="dc" onclick="sd(this,'viaje')"><div class="de">✈️</div><div class="dl">Viaje/Hotel</div></div>
       </div>
       <div class="slabel">Duración por sesión</div>
       <div class="dur-row">
@@ -331,19 +381,56 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
       </div>
       <button class="btn-p" id="genbtn" onclick="genWeekPlan()">Generar plan semanal 🚀</button>
     </div>
-
-    <!-- Week view (after generation) -->
     <div id="week-view" style="display:none">
       <div class="gen-summary fade" id="week-summary"></div>
       <div class="week-tabs" id="week-tabs"></div>
       <div id="day-content"></div>
-      <div style="height:16px"></div>
+      <div style="height:14px"></div>
       <button class="btn-s" onclick="resetPlan()">↩ Generar nuevo plan</button>
-      <button class="pdf-btn" onclick="downloadWeekPDF()">📄 Descargar plan completo en PDF</button>
+      <button class="pdf-btn" onclick="downloadWeekPDF()" style="margin-top:10px">📄 Descargar PDF completo</button>
     </div>
   </div>
 
-  <!-- HÁBITOS -->
+  <!-- PROGRESO SCREEN -->
+  <div class="screen" id="prog-screen">
+    <div class="stitle">Mi Progreso 📊</div>
+    <div class="ssub" id="prog-date">—</div>
+    <div class="stat-grid" id="stat-grid"></div>
+    <div class="slabel">Últimas 10 semanas</div>
+    <div class="heatmap-wrap">
+      <div class="heatmap-grid" id="heatmap-grid"></div>
+      <div class="hm-legend">
+        <div class="hm-leg-item"><div class="hm-leg-dot" style="background:rgba(255,255,255,.05)"></div>Sin actividad</div>
+        <div class="hm-leg-item"><div class="hm-leg-dot" style="background:rgba(77,255,160,.2)"></div>Hábitos</div>
+        <div class="hm-leg-item"><div class="hm-leg-dot" style="background:#4DFFA0"></div>Entreno ✓</div>
+      </div>
+    </div>
+    <div class="slabel">Acciones rápidas</div>
+    <div class="action-grid">
+      <div class="action-card review" onclick="showWeeklyReview()">
+        <div class="ac-em">📋</div>
+        <div class="ac-title">Revisión semanal</div>
+        <div class="ac-sub">IA analiza tu semana</div>
+      </div>
+      <div class="action-card emergency" onclick="showEmergency()">
+        <div class="ac-em">🚨</div>
+        <div class="ac-title">Modo Emergencia</div>
+        <div class="ac-sub">Plan express con fecha</div>
+      </div>
+      <div class="action-card travel" onclick="launchTravel()">
+        <div class="ac-em">✈️</div>
+        <div class="ac-title">Modo Viaje</div>
+        <div class="ac-sub">Sin equipamiento</div>
+      </div>
+      <div class="action-card progress-mode" onclick="showProgressionInfo()">
+        <div class="ac-em">📈</div>
+        <div class="ac-title">Progresión IA</div>
+        <div class="ac-sub" id="prog-info-sub">Tu próximo plan será más difícil</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HABITS SCREEN -->
   <div class="screen" id="habits-screen">
     <div class="stitle">Hábitos Diarios 🌱</div>
     <div class="ssub" id="hdate">—</div>
@@ -357,7 +444,7 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
       </div>
       <div>
         <div style="font-weight:700;font-size:17px" id="plabel">0/5 hábitos</div>
-        <div style="font-size:12px;color:#8A95A8;margin-top:3px" id="pmsg">¡Empieza el día con energía!</div>
+        <div style="font-size:12px;color:#8A95A8;margin-top:3px" id="pmsg">¡Empieza el día!</div>
       </div>
     </div>
     <div id="hlist"></div>
@@ -369,7 +456,7 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
     <div id="sugwrap" style="margin-top:16px;display:none"></div>
   </div>
 
-  <!-- COACH -->
+  <!-- COACH SCREEN -->
   <div id="coach-screen">
     <div class="msgs" id="msgs"></div>
     <div class="qqs">
@@ -390,9 +477,10 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
   </div>
 
   <div class="bnav">
-    <button class="nbtn on" id="np" onclick="swTab('plan')"><span class="ni">🗓️</span><span class="nl">PLAN</span><div class="ndot"></div></button>
-    <button class="nbtn" id="nh" onclick="swTab('habits')"><span class="ni">🌱</span><span class="nl">HÁBITOS</span></button>
-    <button class="nbtn" id="nc" onclick="swTab('coach')"><span class="ni">⚡</span><span class="nl">COACH</span></button>
+    <button class="nbtn on" id="ntab-plan" onclick="swTab('plan')"><span class="ni">🗓️</span><span class="nl">PLAN</span><div class="ndot"></div></button>
+    <button class="nbtn" id="ntab-prog" onclick="swTab('prog')"><span class="ni">📊</span><span class="nl">PROGRESO</span></button>
+    <button class="nbtn" id="ntab-habits" onclick="swTab('habits')"><span class="ni">🌱</span><span class="nl">HÁBITOS</span></button>
+    <button class="nbtn" id="ntab-coach" onclick="swTab('coach')"><span class="ni">⚡</span><span class="nl">COACH</span></button>
   </div>
 </div>
 
@@ -403,22 +491,20 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
       <h2>Elige tu <span style="color:#4DFFA0">plan</span></h2>
       <p>Empieza gratis · Crece sin límites</p>
     </div>
-
     <div class="plan-card free">
       <div class="plan-name">Freemium</div>
       <div class="plan-price"><span class="p-amt">$0</span></div>
-      <div class="plan-sub">Para empezar tu journey fitness</div>
+      <div class="plan-sub">Para empezar tu journey</div>
       <ul class="feat-list">
         <li><span style="color:#4DFFA0">✓</span> 3 planes semanales por mes</li>
         <li><span style="color:#4DFFA0">✓</span> 10 mensajes al coach IA</li>
         <li><span style="color:#4DFFA0">✓</span> Hasta 5 hábitos diarios</li>
-        <li><span style="color:#4DFFA0">✓</span> Descarga PDF de tu plan</li>
+        <li><span style="color:#4DFFA0">✓</span> Descarga PDF</li>
         <li class="dim"><span>✕</span> Coach ilimitado</li>
         <li class="dim"><span>✕</span> Hábitos ilimitados</li>
       </ul>
       <button class="btn-plan free" id="btn-free" onclick="hidePricing()">Continuar gratis</button>
     </div>
-
     <div class="plan-card pro" style="margin-top:22px">
       <div class="pcbadge green">⚡ MÁS POPULAR</div>
       <div class="plan-name" style="color:#4DFFA0">Pro</div>
@@ -426,28 +512,24 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
       <div class="plan-sub">Todo ilimitado · Sin restricciones</div>
       <ul class="feat-list">
         <li><span style="color:#4DFFA0">✓</span> <strong>Planes semanales ilimitados</strong></li>
-        <li><span style="color:#4DFFA0">✓</span> <strong>Coach IA 24/7 sin límites</strong></li>
+        <li><span style="color:#4DFFA0">✓</span> <strong>Coach 24/7 sin límites</strong></li>
         <li><span style="color:#4DFFA0">✓</span> <strong>Hábitos ilimitados</strong></li>
         <li><span style="color:#4DFFA0">✓</span> PDF ilimitados</li>
         <li><span style="color:#4DFFA0">✓</span> Sugerencias IA ilimitadas</li>
-        <li><span style="color:#4DFFA0">✓</span> Acceso prioritario a nuevas funciones</li>
       </ul>
       <button class="btn-plan pro" id="btn-pro" onclick="goPlan('pro')">Comenzar Pro → $9/mes</button>
     </div>
-
     <div class="plan-card anual" style="margin-top:22px">
       <div class="pcbadge blue">💎 AHORRA 54%</div>
       <div class="plan-name" style="color:#00C8FF">Pro Anual</div>
       <div class="plan-price"><span class="p-cur" style="color:#00C8FF">$</span><span class="p-amt" style="color:#00C8FF">49</span><span class="p-per">/año</span></div>
       <div class="plan-sub">Solo $4.08/mes · Cancela cuando quieras</div>
       <ul class="feat-list">
-        <li><span style="color:#00C8FF">✓</span> Todo lo incluido en Pro</li>
-        <li><span style="color:#00C8FF">✓</span> <strong>Ahorra $59 vs Pro mensual</strong></li>
-        <li><span style="color:#00C8FF">✓</span> Soporte prioritario</li>
+        <li><span style="color:#00C8FF">✓</span> Todo lo de Pro</li>
+        <li><span style="color:#00C8FF">✓</span> <strong>Ahorra $59 vs mensual</strong></li>
       </ul>
       <button class="btn-plan anual" id="btn-anual" onclick="goPlan('anual')">Pro Anual → $49/año</button>
     </div>
-
     <div class="plan-card lifetime" style="margin-top:22px">
       <div class="pcbadge gold">🔥 MEJOR VALOR</div>
       <div class="plan-name" style="color:#FFD700">Lifetime</div>
@@ -455,17 +537,13 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
       <div class="plan-sub">Paga una vez · Usa para siempre</div>
       <ul class="feat-list">
         <li><span style="color:#FFD700">✓</span> <strong>Todo ilimitado para siempre</strong></li>
-        <li><span style="color:#FFD700">✓</span> Sin pagos recurrentes jamás</li>
+        <li><span style="color:#FFD700">✓</span> Sin pagos recurrentes</li>
         <li><span style="color:#FFD700">✓</span> Todas las actualizaciones futuras</li>
-        <li><span style="color:#FFD700">✓</span> Soporte prioritario de por vida</li>
         <li><span style="color:#FFD700">✓</span> <strong>Ahorra +$49 vs Pro anual</strong></li>
       </ul>
       <button class="btn-plan lifetime" id="btn-lifetime" onclick="goPlan('lifetime')">Obtener Lifetime → $59</button>
     </div>
-
-    <div style="text-align:center;font-size:11px;color:#3a4555;margin-top:20px;line-height:1.8">
-      🔒 Pago 100% seguro con Stripe · Cancela en cualquier momento<br>Garantía de satisfacción 7 días
-    </div>
+    <div style="text-align:center;font-size:11px;color:#3a4555;margin-top:20px;line-height:1.8">🔒 Pago seguro con Stripe · Cancela cuando quieras<br>Garantía 7 días</div>
     <button class="overlay-close" onclick="hidePricing()">✕ Cerrar</button>
   </div>
 </div>
@@ -477,26 +555,51 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
     <div class="popup-title" id="popup-title">Límite alcanzado</div>
     <div class="popup-sub" id="popup-sub">Actualiza tu plan para continuar.</div>
     <div class="popup-opts">
-      <div class="popup-opt pro" onclick="goPlan('pro')">
-        <div class="popup-opt-price pro">$9</div>
-        <div class="popup-opt-name">Pro / mes</div>
-      </div>
-      <div class="popup-opt anual" onclick="goPlan('anual')">
-        <div class="popup-opt-price anual">$49</div>
-        <div class="popup-opt-name">Pro anual</div>
-      </div>
-      <div class="popup-opt lifetime" onclick="goPlan('lifetime')">
-        <div class="popup-opt-price lifetime">$59</div>
-        <div class="popup-opt-name">Lifetime</div>
-      </div>
+      <div class="popup-opt pro" onclick="goPlan('pro')"><div class="popup-opt-price pro">$9</div><div class="popup-opt-name">Pro/mes</div></div>
+      <div class="popup-opt anual" onclick="goPlan('anual')"><div class="popup-opt-price anual">$49</div><div class="popup-opt-name">Anual</div></div>
+      <div class="popup-opt lifetime" onclick="goPlan('lifetime')"><div class="popup-opt-price lifetime">$59</div><div class="popup-opt-name">Lifetime</div></div>
     </div>
     <button class="btn-p" onclick="showPricing();closePopup()" style="margin-top:0">Ver todos los planes ⚡</button>
     <button class="btn-s" onclick="closePopup()" style="margin-top:10px;padding:12px">Seguir con plan Free</button>
   </div>
 </div>
 
+<!-- WEEKLY REVIEW MODAL -->
+<div class="modal-bg" id="review-modal">
+  <div class="modal-sheet" style="position:relative">
+    <button class="modal-close" onclick="document.getElementById('review-modal').classList.remove('on')">✕</button>
+    <div style="font-size:32px;margin-bottom:10px">📋</div>
+    <div class="modal-title">Revisión Semanal</div>
+    <div class="modal-sub">Tu coach IA analiza tu semana completa</div>
+    <div id="review-content">
+      <button class="btn-p" onclick="runWeeklyReview()" style="margin-top:0" id="review-btn">Analizar mi semana con IA 🤖</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMERGENCY MODAL -->
+<div class="modal-bg" id="emergency-modal">
+  <div class="modal-sheet" style="position:relative">
+    <button class="modal-close" onclick="document.getElementById('emergency-modal').classList.remove('on')">✕</button>
+    <div style="font-size:32px;margin-bottom:10px">🚨</div>
+    <div class="modal-title">Modo Emergencia</div>
+    <div class="modal-sub">Dime tu meta y fecha límite — la IA te crea un plan express intenso pero seguro</div>
+    <div style="font-size:11px;color:#8A95A8;margin-bottom:6px;letter-spacing:.5px">¿CUÁL ES EL EVENTO?</div>
+    <input class="field" id="em-event" placeholder="Ej: boda, playa, reunión importante..." style="margin-bottom:12px"/>
+    <div style="font-size:11px;color:#8A95A8;margin-bottom:6px;letter-spacing:.5px">¿EN CUÁNTOS DÍAS?</div>
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+      <div class="pill" id="em7" onclick="selEmDays(7,'em7')">7 días</div>
+      <div class="pill" id="em14" onclick="selEmDays(14,'em14')">14 días</div>
+      <div class="pill" id="em21" onclick="selEmDays(21,'em21')">21 días</div>
+      <div class="pill" id="em30" onclick="selEmDays(30,'em30')">30 días</div>
+    </div>
+    <div id="em-result" style="margin-bottom:12px"></div>
+    <button class="btn-p" id="em-btn" onclick="runEmergencyPlan()" style="margin-top:0" disabled>Generar plan de emergencia 🚨</button>
+  </div>
+</div>
+
 <script>
-// ── STRIPE PAYMENT LINKS ──
+// ── STRIPE ──
 const STRIPE = {
   pro:      'https://buy.stripe.com/test_7sY00k1HRdoO5IddwNg3600',
   anual:    'https://buy.stripe.com/test_9B67sMaenckKc6B64lg3603',
@@ -521,17 +624,10 @@ function track(type){ const u=loadUsage(); u[type]++; saveUsage(u); updateUsageU
 function updateUsageUI(){
   const plan=loadPlan(), paid=isPaid(), u=loadUsage(), l=LIMITS.free;
   const pill=document.getElementById('planpill');
-  if(pill){
-    pill.className='plan-pill '+plan;
-    pill.textContent=plan==='free'?'FREE':plan==='pro'?'⚡ PRO':plan==='anual'?'💎 ANUAL':'👑 LIFETIME';
-  }
+  if(pill){ pill.className='plan-pill '+plan; pill.textContent=plan==='free'?'FREE':plan==='pro'?'⚡ PRO':plan==='anual'?'💎 ANUAL':'👑 LIFETIME'; }
   const row=document.getElementById('usage-row');
   if(row) row.style.display=paid?'none':'flex';
-  if(!paid){
-    setU('u-plans',  u.plans,    l.plans);
-    setU('u-msgs',   u.messages, l.messages);
-    setU('u-habs',   u.habits,   l.habits);
-  }
+  if(!paid){ setU('u-plans',u.plans,l.plans); setU('u-msgs',u.messages,l.messages); setU('u-habs',u.habits,l.habits); }
 }
 function setU(id,used,max){
   const el=document.getElementById(id); if(!el)return;
@@ -553,11 +649,11 @@ function goPlan(plan){ if(STRIPE[plan]) window.location.href=STRIPE[plan]; }
 
 function showUpgradePopup(type){
   const map={
-    plans:   ['Planes semanales agotados 🗓️','Usaste tus 3 planes gratuitos del mes.\nActualiza para planes semanales ilimitados.'],
-    messages:['Mensajes del coach agotados ⚡','Usaste tus 10 mensajes gratuitos del mes.\nPasa a Pro para chatear sin límites.'],
-    habits:  ['Límite de hábitos alcanzado 🌱','El plan Free permite hasta 5 hábitos.\nActualiza para hábitos ilimitados.']
+    plans:['Planes agotados 🗓️','Usaste tus 3 planes gratuitos del mes.\nActualiza para planes ilimitados.'],
+    messages:['Mensajes agotados ⚡','Usaste tus 10 mensajes gratuitos.\nPasa a Pro para chatear sin límites.'],
+    habits:['Límite de hábitos 🌱','El plan Free permite hasta 5 hábitos.\nActualiza para hábitos ilimitados.']
   };
-  const [t,s]=map[type]||['Límite alcanzado','Actualiza tu plan para continuar.'];
+  const [t,s]=map[type]||['Límite alcanzado','Actualiza tu plan.'];
   document.getElementById('popup-title').textContent=t;
   document.getElementById('popup-sub').textContent=s;
   document.getElementById('upgrade-popup').classList.add('on');
@@ -569,11 +665,26 @@ function checkPaymentReturn(){
   if(up&&['pro','anual','lifetime'].includes(up)){
     savePlan(up); history.replaceState({},'',window.location.pathname); updateUsageUI();
     setTimeout(()=>{
-      const msgs={pro:'⚡ ¡Bienvenido a Pro!\n\nAhora tienes acceso ilimitado a todas las funciones.',anual:'💎 ¡Pro Anual activado!\n\nDisfruta todo ilimitado durante un año completo.',lifetime:'👑 ¡Eres Lifetime!\n\nAcceso ilimitado para siempre. ¡Gracias por apoyar Crece Diario!'};
+      const msgs={pro:'⚡ ¡Bienvenido a Pro!\n\nAhora tienes acceso ilimitado.',anual:'💎 ¡Pro Anual activado!\n\nDisfruta todo ilimitado por un año.',lifetime:'👑 ¡Eres Lifetime!\n\nAcceso ilimitado para siempre. ¡Gracias!'};
       addBot(msgs[up]);
     },500);
   }
 }
+
+// ── WORKOUT LOG (heatmap) ──
+function getLog(){ return JSON.parse(localStorage.getItem('cd_log')||'{}'); }
+function logWorkout(date){ const l=getLog(); l[date]='workout'; localStorage.setItem('cd_log',JSON.stringify(l)); renderHeatmap(); renderStats(); }
+function logHabits(date){ const l=getLog(); l[date]=l[date]==='workout'?'both':l[date]||'habits'; localStorage.setItem('cd_log',JSON.stringify(l)); renderHeatmap(); renderStats(); }
+function isLogged(date){ return !!getLog()[date]; }
+
+// ── CHECKINS ──
+function getCheckins(){ return JSON.parse(localStorage.getItem('cd_checkins')||'{}'); }
+function saveCheckin(date,data){ const c=getCheckins(); c[date]=data; localStorage.setItem('cd_checkins',JSON.stringify(c)); }
+function getTodayCheckin(){ return getCheckins()[new Date().toISOString().slice(0,10)]||null; }
+
+// ── PLAN HISTORY (progressive overload) ──
+function saveLastPlan(plan,discKey,goal,level){ localStorage.setItem('cd_lastplan',JSON.stringify({plan,disc:discKey,goal,level,date:new Date().toISOString().slice(0,10)})); }
+function getLastPlan(){ return JSON.parse(localStorage.getItem('cd_lastplan')||'null'); }
 
 // ── APP STATE ──
 const AK="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";
@@ -585,13 +696,13 @@ let habits=[
   {id:4,text:'10 min de meditación',icon:'🧘',done:false},
   {id:5,text:'Sin azúcar añadida',icon:'🚫',done:false},
 ];
-let chatH=[], loading=false, weekPlan=null, activeDay=0;
+let chatH=[], loading=false, weekPlan=null, activeDay=0, emDays=0;
 
-async function claude(sys,msgs){
+async function claude(sys,msgs,maxTok=2000){
   const r=await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{'Content-Type':'application/json','x-api-key':AK,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:4000,system:sys,messages:msgs})
+    body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:maxTok,system:sys,messages:msgs})
   });
   const d=await r.json();
   if(d.error)throw new Error(d.error.message);
@@ -618,44 +729,34 @@ function startApp(){
   const fmt=d=>d.toLocaleDateString('es-MX',{day:'numeric',month:'short'});
   document.getElementById('week-label').textContent=`Semana del ${fmt(mon)} al ${fmt(fri)}`;
   document.getElementById('hdate').textContent=now.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'});
-  checkPaymentReturn(); updateUsageUI(); renderH();
-  addBot(`¡Hola ${P.name}! 👋\n\nSoy tu coach personal de IA. Estoy listo para ayudarte con tu objetivo: ${P.goal.label}.\n\n¿Quieres generar tu plan semanal o tienes alguna pregunta?`);
+  document.getElementById('prog-date').textContent=now.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'});
+  checkPaymentReturn(); updateUsageUI(); renderH(); renderHeatmap(); renderStats();
+  // Check for Sunday weekly review
+  if(now.getDay()===0){ const lr=localStorage.getItem('cd_last_review'); if(lr!==now.toISOString().slice(0,10)) setTimeout(()=>showWeeklyReview(),2000); }
+  addBot(`¡Hola ${P.name}! 👋\n\nSoy tu coach IA personal. Tengo acceso a tu progreso y perfil.\n\n¿Quieres generar tu plan semanal o tienes alguna pregunta?`);
 }
 
 // ── TABS ──
+const ALL_TABS=['plan','prog','habits','coach'];
 function swTab(t){
-  ['plan','habits','coach'].forEach(x=>{
-    const b=document.getElementById('n'+x[0]); b.classList.remove('on');
-    const d=b.querySelector('.ndot'); if(d)d.remove();
-  });
+  ALL_TABS.forEach(x=>{ const b=document.getElementById('ntab-'+x); b.classList.remove('on'); const d=b.querySelector('.ndot'); if(d)d.remove(); });
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   document.getElementById('coach-screen').classList.remove('on');
-  const b=document.getElementById('n'+t[0]); b.classList.add('on');
+  const b=document.getElementById('ntab-'+t); b.classList.add('on');
   const dot=document.createElement('div'); dot.className='ndot'; b.appendChild(dot);
   if(t==='coach') document.getElementById('coach-screen').classList.add('on');
   else document.getElementById(t+'-screen').classList.add('on');
+  if(t==='prog'){ renderHeatmap(); renderStats(); }
 }
 
-// ── PLAN SEMANAL ──
+// ── PLAN ──
 function sd(el,d){document.querySelectorAll('.dc').forEach(c=>c.classList.remove('on'));el.classList.add('on');disc=d}
 function sdr(el,d){document.querySelectorAll('.dur-row .pill').forEach(p=>p.classList.remove('on'));el.classList.add('on');dur=d}
 
-const DISC_NAMES={calistenia:'Calistenia',pesas:'Pesas',yoga:'Yoga',crossfit:'CrossFit',movilidad:'Movilidad',cardio:'Cardio',pilates:'Pilates',hiit:'HIIT',funcional:'Funcional'};
+const DISC_NAMES={calistenia:'Calistenia',pesas:'Pesas',yoga:'Yoga',crossfit:'CrossFit',movilidad:'Movilidad',cardio:'Cardio',pilates:'Pilates',hiit:'HIIT',funcional:'Funcional',viaje:'Sin equipo / Hotel'};
+const SHORT_DAYS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
 
-const YT_IDS={
-  'sentadilla':'-G0f9bvg_Mg','press banca':'rT7DgCr-3pg','peso muerto':'op9kVnSso6Q',
-  'dominadas':'eGo4IYlbE5g','flexiones':'IODxDxX7oi4','zancadas':'D7KaRcUTQeE',
-  'plancha':'ASdvN_XEl_c','burpees':'auBLPXO8Nwk','mountain climbers':'nmwgirgXLYM',
-  'hip thrust':'SEdqd1n0cvg','curl biceps':'ykJmrZ5v0Oo','triceps':'nRiJVZDpdL0',
-  default_calistenia:'DTvCggGKXKI',default_pesas:'gey73xiS8F4',default_yoga:'v7AYKMP6rOE',
-  default_crossfit:'MLhhDXsxpEA',default_movilidad:'8VwufJrUhXQ',default_cardio:'ml6cT4AZdqI',
-  default_pilates:'g-YcxD_3_yg',default_hiit:'ml6cT4AZdqI',default_funcional:'gey73xiS8F4'
-};
-function getYTId(name,d){
-  const n=name.toLowerCase();
-  for(const[k,v] of Object.entries(YT_IDS)){if(!k.startsWith('default')&&n.includes(k))return v;}
-  return YT_IDS['default_'+d]||'DTvCggGKXKI';
-}
+function ytSearchUrl(name){ return `https://www.youtube.com/results?search_query=${encodeURIComponent(name+' ejercicio tutorial cómo hacerlo')}`; }
 
 async function genWeekPlan(){
   if(!disc||loading)return;
@@ -665,103 +766,124 @@ async function genWeekPlan(){
   btn.textContent='Generando tu plan semanal... ⏳'; btn.disabled=true;
 
   try{
-    const sys=`Eres un experto en programación de entrenamiento deportivo. Responde SOLO con JSON válido, sin texto extra, sin backticks, sin markdown.
-Formato exacto (5 días, Lunes a Viernes):
-{
-  "nombre":"Nombre del plan semanal",
-  "objetivo":"descripción breve del enfoque de la semana",
-  "dias":[
-    {
-      "nombre":"Lunes",
-      "enfoque":"Pecho + Tríceps",
-      "emoji":"💪",
-      "ejercicios":[
-        {"nombre":"nombre del ejercicio real","series":"3","reps":"12","descanso":"60s","tip":"consejo técnico en 1 oración"}
-      ],
-      "consejo":"consejo específico y motivador para ese día"
-    }
-  ]
-}
-Genera exactamente 5 objetos en "dias" (Lunes, Martes, Miércoles, Jueves, Viernes).
-5-6 ejercicios por día. Varía grupos musculares (push/pull/legs/full body) para recuperación óptima. Nombres de ejercicios reales y conocidos.`;
-    const msg=`Perfil: ${P.name}, ${P.age} años, ${P.gender}, ${P.weight}kg, ${P.height}cm. Objetivo: ${P.goal.label}. Nivel: ${P.level}. Disciplina: ${DISC_NAMES[disc]}. Duración por sesión: ${dur} min.`;
-    const res=await claude(sys,[{role:'user',content:msg}]);
+    const lastPlan=getLastPlan();
+    const progressNote = (lastPlan && lastPlan.disc===disc && lastPlan.goal===P.goal.label)
+      ? `\nIMPORTANTE: El usuario ya hizo este plan la semana pasada. Aumenta la dificultad: más series, más reps o ejercicios más complejos. Plan anterior: ${JSON.stringify(lastPlan.plan?.nombre||'')}.`
+      : '';
+
+    const sys=`Eres un experto en programación de entrenamiento. Responde SOLO con JSON válido, sin texto extra, sin backticks.
+Formato exacto:
+{"nombre":"Nombre del plan","objetivo":"descripción breve","dias":[{"nombre":"Lunes","enfoque":"Pecho + Tríceps","emoji":"💪","ejercicios":[{"nombre":"ejercicio real","series":"3","reps":"12","descanso":"60s","tip":"consejo técnico"}],"consejo":"consejo motivador del día"}]}
+Genera exactamente 5 días (Lunes a Viernes). 5-6 ejercicios por día. Varía grupos musculares. Nombres de ejercicios reales y conocidos.${progressNote}`;
+    const msg=`Perfil: ${P.name}, ${P.age} años, ${P.gender}, ${P.weight}kg, ${P.height}cm. Objetivo: ${P.goal.label}. Nivel: ${P.level}. Disciplina: ${DISC_NAMES[disc]}. Duración: ${dur} min.`;
+    const res=await claude(sys,[{role:'user',content:msg}],4000);
     weekPlan=JSON.parse(res.replace(/```json|```/g,'').trim());
     track('plans');
+    saveLastPlan(weekPlan,disc,P.goal.label,P.level);
     renderWeekPlan(weekPlan);
-  }catch(e){
-    alert('Error al generar el plan: '+e.message);
-  }
+  }catch(e){ alert('Error: '+e.message); }
   btn.textContent='Generar plan semanal 🚀'; btn.disabled=false; loading=false;
 }
-
-const SHORT_DAYS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
 
 function renderWeekPlan(data){
   document.getElementById('plan-config').style.display='none';
   document.getElementById('week-view').style.display='block';
-
   document.getElementById('week-summary').innerHTML=`
     <h3>📅 ${data.nombre}</h3>
     <p style="margin-top:5px;color:#8A95A8;font-size:13px">${data.objetivo}</p>
-    <div class="gen-tags">
-      <span class="gen-tag">✓ 5 entrenamientos</span>
-      <span class="gen-tag">✓ 2 días de descanso</span>
-      <span class="gen-tag">✓ ${dur} min / sesión</span>
-    </div>`;
-
-  const today=new Date().getDay(); // 0=Sun
+    <div class="gen-tags"><span class="gen-tag">✓ 5 entrenamientos</span><span class="gen-tag">✓ 2 días descanso</span><span class="gen-tag">✓ ${dur} min/sesión</span>${getLastPlan()&&getLastPlan().disc===disc?'<span class="gen-tag">📈 Progresión aplicada</span>':''}</div>`;
+  const today=new Date().getDay();
   const tabs=document.getElementById('week-tabs');
   tabs.innerHTML='';
   SHORT_DAYS.forEach((name,i)=>{
     const isRest=i>=5;
     const isToday=(today===0&&i===6)||(today>0&&i===today-1);
+    const log=getLog(), dateStr=getDayDate(i);
+    const isDone=log[dateStr]==='workout'||log[dateStr]==='both';
     const div=document.createElement('div');
-    div.className='wday'+(isRest?' rest':'')+(isToday?' today':'')+(i===0?' on':'');
-    div.innerHTML=`<div class="wday-name">${name}</div><div class="wday-num">${isRest?'😴':i+1}</div>`;
+    div.className='wday'+(isRest?' rest':'')+(isToday?' today':'')+(i===0&&!isRest?' on':'')+(isDone?' done':'');
+    div.innerHTML=`<div class="wday-name">${name}</div><div class="wday-num">${isRest?'😴':isDone?'✓':i+1}</div>`;
     if(!isRest) div.onclick=()=>showDay(i);
     tabs.appendChild(div);
   });
-
   activeDay=0; showDay(0);
+}
+
+function getDayDate(dayIndex){
+  const now=new Date();
+  const mon=new Date(now); mon.setDate(now.getDate()-((now.getDay()+6)%7));
+  const d=new Date(mon); d.setDate(mon.getDate()+dayIndex);
+  return d.toISOString().slice(0,10);
 }
 
 function showDay(idx){
   activeDay=idx;
   document.querySelectorAll('.wday:not(.rest)').forEach((el,i)=>el.classList.toggle('on',i===idx));
   const content=document.getElementById('day-content');
-
   if(idx>=5||!weekPlan?.dias[idx]){
     const names=['Sábado','Domingo'];
-    content.innerHTML=`<div class="rest-card fade">
-      <div class="rest-em">😴</div>
-      <h3>${names[idx-5]} — Día de Descanso</h3>
-      <p>El descanso es parte del entrenamiento.<br>Hoy tu cuerpo repara y crece. Hidrátate bien, duerme y disfruta.</p>
-    </div>`; return;
+    content.innerHTML=`<div class="rest-card fade"><div style="font-size:52px;margin-bottom:14px">😴</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px">${names[idx-5]} — Día de Descanso</h3><p style="font-size:13px;color:#8A95A8;line-height:1.65">El descanso es donde el cuerpo crece y se repara.<br>Hidrátate, duerme bien y disfruta el día.</p></div>`;
+    return;
+  }
+  const day=weekPlan.dias[idx];
+  const dateStr=getDayDate(idx);
+  const checkin=getCheckins()[dateStr];
+  const isDone=getLog()[dateStr]==='workout'||getLog()[dateStr]==='both';
+
+  let html='';
+
+  // Daily check-in card
+  if(!checkin){
+    html+=`<div class="checkin-card fade">
+      <div class="checkin-title">☀️ ¿Cómo te sientes hoy?</div>
+      <div class="checkin-row"><span class="checkin-label">⚡ Energía</span>
+        <div class="checkin-emojis">
+          <span class="ci-em" data-key="energy" data-val="1" onclick="selCI(this)">😪</span>
+          <span class="ci-em" data-key="energy" data-val="2" onclick="selCI(this)">😐</span>
+          <span class="ci-em" data-key="energy" data-val="3" onclick="selCI(this)">😊</span>
+          <span class="ci-em" data-key="energy" data-val="4" onclick="selCI(this)">⚡</span>
+        </div></div>
+      <div class="checkin-row"><span class="checkin-label">🌙 Sueño</span>
+        <div class="checkin-emojis">
+          <span class="ci-em" data-key="sleep" data-val="1" onclick="selCI(this)">💤</span>
+          <span class="ci-em" data-key="sleep" data-val="2" onclick="selCI(this)">😐</span>
+          <span class="ci-em" data-key="sleep" data-val="3" onclick="selCI(this)">😊</span>
+          <span class="ci-em" data-key="sleep" data-val="4" onclick="selCI(this)">🌟</span>
+        </div></div>
+      <div class="checkin-row"><span class="checkin-label">💪 Dolor muscular</span>
+        <div class="checkin-emojis">
+          <span class="ci-em" data-key="pain" data-val="4" onclick="selCI(this)">🔴</span>
+          <span class="ci-em" data-key="pain" data-val="3" onclick="selCI(this)">🟡</span>
+          <span class="ci-em" data-key="pain" data-val="2" onclick="selCI(this)">🟢</span>
+          <span class="ci-em" data-key="pain" data-val="1" onclick="selCI(this)">✨</span>
+        </div></div>
+      <button class="checkin-save" onclick="saveCheckinUI('${dateStr}',${idx})">Guardar y ver rutina →</button>
+    </div>`;
+  } else {
+    const energyEmoji=['','😪','😐','😊','⚡'][checkin.energy]||'😊';
+    const sleepEmoji=['','💤','😐','😊','🌟'][checkin.sleep]||'😊';
+    const low=checkin.energy<=2||checkin.sleep<=2;
+    html+=`<div class="checkin-card fade" style="background:rgba(77,255,160,.04);border-color:rgba(77,255,160,.15)">
+      <div class="checkin-done">
+        <span style="font-size:12px;font-weight:700;color:#4DFFA0">✓ Check-in del día</span>
+        <div class="ci-badge">${energyEmoji} Energía</div>
+        <div class="ci-badge">${sleepEmoji} Sueño</div>
+        ${low?'<div class="ci-badge" style="border-color:rgba(255,150,0,.3);color:#FF9500">⚠️ Sesión suave recomendada</div>':''}
+      </div>
+    </div>`;
   }
 
-  const day=weekPlan.dias[idx];
-  let html=`<div class="day-badge fade">${day.emoji} ${day.nombre} · ${day.enfoque}</div>`;
+  html+=`<div class="day-badge fade">${day.emoji} ${day.nombre} · ${day.enfoque}</div>`;
 
   day.ejercicios.forEach((ex,i)=>{
-    const ytId=getYTId(ex.nombre,disc);
+    const secs=parseSecs(ex.descanso);
     html+=`<div class="ex-card fade" id="exc${idx}_${i}" style="animation-delay:${i*.06}s">
       <div class="ex-card-header" onclick="toggleEx(${idx},${i})">
         <div class="ex-num">${i+1}</div>
-        <div class="ex-info">
-          <div class="ex-name">${ex.nombre}</div>
-          <div class="ex-meta">${ex.series} series × ${ex.reps} &nbsp;·&nbsp; Descanso ${ex.descanso}</div>
-        </div>
+        <div class="ex-info"><div class="ex-name">${ex.nombre}</div><div class="ex-meta">${ex.series} series × ${ex.reps} · Descanso ${ex.descanso}</div></div>
         <div class="ex-expand">▾</div>
       </div>
       <div class="ex-body">
-        <div class="ex-img-placeholder" id="ph${idx}_${i}">
-          <span style="font-size:32px">▶️</span>
-          <span style="font-size:12px;color:#8A95A8">Toca para ver el video</span>
-        </div>
-        <div id="vid${idx}_${i}" style="display:none">
-          <iframe class="ex-video" src="https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe>
-        </div>
         <div class="ex-details">
           <div class="ex-tip">💡 ${ex.tip}</div>
           <div class="ex-stats">
@@ -769,18 +891,109 @@ function showDay(idx){
             <div class="ex-stat"><div class="ex-stat-val">${ex.reps}</div><div class="ex-stat-lbl">REPS</div></div>
             <div class="ex-stat"><div class="ex-stat-val">${ex.descanso}</div><div class="ex-stat-lbl">DESCANSO</div></div>
           </div>
+          <div class="timer-row" style="margin-top:10px">
+            <button class="timer-btn" id="timerbtn${idx}_${i}" onclick="startTimer(${idx},${i},${secs},'${ex.nombre.replace(/'/g,"\\'")}')">⏱️ Iniciar descanso ${ex.descanso}</button>
+            <div class="timer-display" id="timerdisp${idx}_${i}"></div>
+          </div>
+          <a class="yt-btn" href="${ytSearchUrl(ex.nombre)}" target="_blank" rel="noopener">▶ Ver tutorial en YouTube</a>
         </div>
       </div>
     </div>`;
   });
 
   html+=`<div class="tip-card fade"><div style="font-size:11px;font-weight:700;color:#FFD700;margin-bottom:5px;letter-spacing:.5px">💡 CONSEJO DEL DÍA</div><p>${day.consejo}</p></div>`;
-  content.innerHTML=html;
 
-  day.ejercicios.forEach((_,i)=>{
-    const ph=document.getElementById(`ph${idx}_${i}`);
-    if(ph) ph.onclick=()=>{ph.style.display='none';document.getElementById(`vid${idx}_${i}`).style.display='block'};
-  });
+  // Nutrition section
+  html+=`<div class="nutrition-card fade">
+    <div class="nutrition-title">🥗 Nutrición del día</div>
+    <button class="nutri-btn" id="nutri-btn-${idx}" onclick="loadNutrition(${idx},'${day.nombre}','${day.enfoque.replace(/'/g,"\\'")}')">Ver plan de comidas para hoy →</button>
+    <div class="nutri-content" id="nutri-content-${idx}"></div>
+  </div>`;
+
+  // Mark as done
+  html+=`<button class="mark-done-btn${isDone?' done':''}" id="markbtn-${idx}" onclick="markDone(${idx})">
+    ${isDone?'✅ Entrenamiento completado':'✓ Marcar entrenamiento como completado'}
+  </button>`;
+
+  content.innerHTML=html;
+}
+
+// Check-in selectors
+let ciVals={energy:0,sleep:0,pain:0};
+function selCI(el){
+  const key=el.dataset.key, val=parseInt(el.dataset.val);
+  ciVals[key]=val;
+  document.querySelectorAll(`.ci-em[data-key="${key}"]`).forEach(e=>e.classList.toggle('on',e===el));
+}
+function saveCheckinUI(dateStr,idx){
+  if(!ciVals.energy||!ciVals.sleep||!ciVals.pain){ alert('Completa todos los campos'); return; }
+  saveCheckin(dateStr,{energy:ciVals.energy,sleep:ciVals.sleep,pain:ciVals.pain});
+  ciVals={energy:0,sleep:0,pain:0};
+  showDay(idx);
+}
+
+// Mark workout done
+function markDone(idx){
+  const dateStr=getDayDate(idx);
+  logWorkout(dateStr);
+  logHabits(dateStr); // also count for heatmap
+  const btn=document.getElementById('markbtn-'+idx);
+  if(btn){ btn.textContent='✅ Entrenamiento completado'; btn.classList.add('done'); }
+  // Update tab
+  const tabs=document.querySelectorAll('.wday:not(.rest)');
+  if(tabs[idx]){ tabs[idx].classList.add('done'); tabs[idx].querySelector('.wday-num').textContent='✓'; }
+}
+
+// Voice timer
+function parseSecs(str){
+  if(!str)return 60;
+  const m=str.match(/(\d+)\s*(s|seg|min|m)/i);
+  if(!m)return 60;
+  return m[2].toLowerCase().startsWith('m')?parseInt(m[1])*60:parseInt(m[1]);
+}
+let timerIntervals={};
+function startTimer(dayIdx,exIdx,secs,name){
+  const key=`${dayIdx}_${exIdx}`;
+  if(timerIntervals[key]){ clearInterval(timerIntervals[key]); delete timerIntervals[key]; }
+  const btn=document.getElementById(`timerbtn${key}`);
+  const disp=document.getElementById(`timerdisp${key}`);
+  if(!btn||!disp)return;
+  btn.style.display='none'; disp.style.display='block';
+  let rem=secs;
+  disp.textContent=rem+'s'; disp.className='timer-display';
+  timerIntervals[key]=setInterval(()=>{
+    rem--;
+    disp.textContent=rem+'s';
+    if(rem<=5) disp.className='timer-display urgent';
+    if(rem<=0){
+      clearInterval(timerIntervals[key]); delete timerIntervals[key];
+      disp.textContent='¡Vamos!';
+      btn.style.display=''; btn.disabled=false;
+      setTimeout(()=>{ disp.style.display='none'; disp.className='timer-display'; },1500);
+      if('speechSynthesis' in window){
+        window.speechSynthesis.cancel();
+        const u=new SpeechSynthesisUtterance(`¡Listo! Vamos con ${name}`);
+        u.lang='es-ES'; u.rate=0.88; window.speechSynthesis.speak(u);
+      }
+    }
+  },1000);
+}
+
+// Nutrition loader
+async function loadNutrition(idx,dayName,enfoque){
+  if(!canDo('messages')){ showUpgradePopup('messages'); return; }
+  const btn=document.getElementById(`nutri-btn-${idx}`);
+  const content=document.getElementById(`nutri-content-${idx}`);
+  if(!btn||!content)return;
+  btn.textContent='Generando... ⏳'; btn.disabled=true;
+  try{
+    const res=await claude(`Eres nutricionista deportivo. Responde en español, breve y práctico.`,
+      [{role:'user',content:`Genera el plan de comidas para el día de entrenamiento:\nDía: ${dayName}, Enfoque: ${enfoque}\nPerfil: ${P.name}, ${P.age} años, ${P.weight}kg, objetivo: ${P.goal.label}.\n\nIncluye:\n- 🌅 Desayuno pre-entreno\n- 💪 Post-entreno (qué comer en los 30-60 min post)\n- 🍽️ Comida principal\n- 🌙 Cena ligera\nMuy concreto con cantidades aproximadas. Máximo 120 palabras total.`}],800);
+    track('messages');
+    content.textContent=res;
+    content.style.display='block';
+    btn.style.display='none';
+  }catch(e){ btn.textContent='Ver plan de comidas →'; btn.disabled=false; alert('Error: '+e.message); }
 }
 
 function toggleEx(d,i){ document.getElementById(`exc${d}_${i}`).classList.toggle('open'); }
@@ -791,6 +1004,113 @@ function resetPlan(){
   document.getElementById('week-view').style.display='none';
 }
 
+// ── HEATMAP ──
+function renderHeatmap(){
+  const grid=document.getElementById('heatmap-grid'); if(!grid)return;
+  const log=getLog(), today=new Date().toISOString().slice(0,10);
+  const cells=[];
+  for(let i=69;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const ds=d.toISOString().slice(0,10);
+    const state=log[ds]||'';
+    cells.push({ds,state,today:ds===today});
+  }
+  grid.innerHTML=cells.map(c=>`<div class="hm-cell ${c.state} ${c.today?'today':''}" title="${c.ds}"></div>`).join('');
+}
+
+function renderStats(){
+  const grid=document.getElementById('stat-grid'); if(!grid)return;
+  const log=getLog();
+  const entries=Object.entries(log);
+  const workouts=entries.filter(([,v])=>v==='workout'||v==='both').length;
+  // streak
+  let streak=0, d=new Date();
+  while(true){
+    const ds=d.toISOString().slice(0,10);
+    if(log[ds]==='workout'||log[ds]==='both'){ streak++; d.setDate(d.getDate()-1); } else break;
+  }
+  // this week
+  const mon=new Date(); mon.setDate(mon.getDate()-((mon.getDay()+6)%7));
+  let thisWeek=0;
+  for(let i=0;i<7;i++){const dd=new Date(mon);dd.setDate(mon.getDate()+i);const ds=dd.toISOString().slice(0,10);if(log[ds]==='workout'||log[ds]==='both')thisWeek++;}
+  const lastPlan=getLastPlan();
+  const sub=document.getElementById('prog-info-sub');
+  if(sub) sub.textContent=lastPlan?`Último plan: ${lastPlan.date}`:'Genera tu primer plan';
+  grid.innerHTML=`
+    <div class="stat-card"><div class="stat-val">${workouts}</div><div class="stat-lbl">ENTRENOS TOTALES</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:${streak>0?'#4DFFA0':'#555'}">${streak}🔥</div><div class="stat-lbl">RACHA ACTUAL</div></div>
+    <div class="stat-card"><div class="stat-val">${thisWeek}/5</div><div class="stat-lbl">ESTA SEMANA</div></div>
+    <div class="stat-card"><div class="stat-val" style="font-size:20px">${streak>=7?'🏆':streak>=3?'⭐':'💪'}</div><div class="stat-lbl">NIVEL DE RACHA</div></div>`;
+}
+
+// ── WEEKLY REVIEW ──
+function showWeeklyReview(){
+  document.getElementById('review-modal').classList.add('on');
+  document.getElementById('review-content').innerHTML=`<button class="btn-p" onclick="runWeeklyReview()" style="margin-top:0" id="review-btn">Analizar mi semana con IA 🤖</button>`;
+}
+async function runWeeklyReview(){
+  if(!canDo('messages')){ showUpgradePopup('messages'); return; }
+  const btn=document.getElementById('review-btn');
+  if(btn){ btn.textContent='Analizando... ⏳'; btn.disabled=true; }
+  const log=getLog();
+  const mon=new Date(); mon.setDate(mon.getDate()-((mon.getDay()+6)%7));
+  let workoutsThisWeek=0;
+  for(let i=0;i<7;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);const ds=d.toISOString().slice(0,10);if(log[ds]==='workout'||log[ds]==='both')workoutsThisWeek++;}
+  const habitsDone=habits.filter(h=>h.done).length;
+  try{
+    const res=await claude('Eres un coach personal motivador y directo. Responde en español, máximo 150 palabras.',
+      [{role:'user',content:`Haz una revisión semanal para ${P.name}:\n- Entrenamientos completados esta semana: ${workoutsThisWeek}/5\n- Hábitos completados hoy: ${habitsDone}/${habits.length}\n- Objetivo: ${P.goal.label}\n- Nivel: ${P.level}\n\nDame: 1 felicitación específica, 1 área de mejora concreta y 3 acciones para la próxima semana. Sé directo y motivador.`}],600);
+    track('messages');
+    localStorage.setItem('cd_last_review',new Date().toISOString().slice(0,10));
+    document.getElementById('review-content').innerHTML=`<div style="background:rgba(77,255,160,.05);border:1px solid rgba(77,255,160,.2);border-radius:14px;padding:16px;font-size:13px;color:#B0BAC8;line-height:1.7;white-space:pre-wrap">${res}</div><button class="btn-s" onclick="document.getElementById('review-modal').classList.remove('on')" style="margin-top:14px">Cerrar</button>`;
+  }catch(e){ if(btn){btn.textContent='Reintentar';btn.disabled=false;} alert('Error: '+e.message); }
+}
+
+// ── EMERGENCY MODE ──
+function showEmergency(){ document.getElementById('emergency-modal').classList.add('on'); }
+function selEmDays(days,id){
+  emDays=days;
+  document.querySelectorAll('#emergency-modal .pill').forEach(p=>p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  const ev=document.getElementById('em-event').value.trim();
+  document.getElementById('em-btn').disabled=!ev;
+}
+document.addEventListener('input',e=>{ if(e.target.id==='em-event'&&emDays>0) document.getElementById('em-btn').disabled=!e.target.value.trim(); });
+async function runEmergencyPlan(){
+  if(!canDo('messages')){ showUpgradePopup('messages'); return; }
+  const event=document.getElementById('em-event').value.trim();
+  if(!event||!emDays)return;
+  const btn=document.getElementById('em-btn');
+  btn.textContent='Generando plan express... 🚨'; btn.disabled=true;
+  try{
+    const res=await claude('Eres un entrenador personal experto. Responde en español de forma directa y motivadora.',
+      [{role:'user',content:`Crea un plan de emergencia fitness para ${P.name}:\n- Evento: ${event}\n- Días disponibles: ${emDays}\n- Perfil: ${P.age} años, ${P.gender}, ${P.weight}kg, ${P.height}cm\n- Objetivo: ${P.goal.label}, Nivel: ${P.level}\n\nEl plan debe incluir:\n1. Estrategia general (qué enfocarse)\n2. Rutina de entrenamiento (3-4 días/semana)\n3. Ajustes de nutrición clave\n4. Lo que NO hacer\n5. Expectativas realistas\n\nSé específico y directo. Máximo 200 palabras.`}],800);
+    track('messages');
+    document.getElementById('em-result').innerHTML=`<div style="background:rgba(255,75,75,.05);border:1px solid rgba(255,75,75,.2);border-radius:14px;padding:16px;font-size:13px;color:#B0BAC8;line-height:1.7;white-space:pre-wrap;margin-bottom:12px">${res}</div>`;
+    btn.textContent='Generar nuevo plan 🚨'; btn.disabled=false;
+  }catch(e){ btn.textContent='Generar plan de emergencia 🚨'; btn.disabled=false; alert('Error: '+e.message); }
+}
+
+// ── TRAVEL MODE ──
+function launchTravel(){
+  document.getElementById('emergency-modal').classList.remove('on');
+  swTab('plan');
+  // Auto-select viaje discipline
+  setTimeout(()=>{
+    const viajeDc=document.querySelector('.dc:last-child');
+    if(viajeDc){ sd(viajeDc,'viaje'); }
+    document.getElementById('plan-config').style.display='block';
+    document.getElementById('week-view').style.display='none';
+  },100);
+}
+
+function showProgressionInfo(){
+  const lp=getLastPlan();
+  if(lp) alert(`📈 Progresión Inteligente\n\nÚltimo plan: ${lp.plan?.nombre||'-'}\nFecha: ${lp.date}\nDisciplina: ${DISC_NAMES[lp.disc]||lp.disc}\n\nLa IA aumentará automáticamente la dificultad la próxima vez que generes un plan con la misma disciplina.`);
+  else alert('📈 Progresión Inteligente\n\nGenera tu primer plan semanal y la IA recordará la dificultad para progresarte automáticamente cada semana.');
+}
+
+// PDF download
 async function downloadWeekPDF(){
   if(!weekPlan)return;
   const {jsPDF}=window.jspdf;
@@ -799,61 +1119,45 @@ async function downloadWeekPDF(){
   let y=M;
   const bg=()=>{doc.setFillColor(8,12,20);doc.rect(0,0,W,297,'F');};
   bg();
-
-  // Header
-  doc.setFillColor(12,20,34); doc.rect(0,0,W,38,'F');
-  doc.setTextColor(77,255,160); doc.setFontSize(20); doc.setFont('helvetica','bold');
-  doc.text('CRECE DIARIO',M,16);
-  doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.setTextColor(138,149,168);
-  doc.text('Plan Semanal Personalizado con IA',M,23);
-  doc.setTextColor(200,210,220); doc.setFontSize(8);
-  doc.text(`${P.name} • ${P.goal.label} • ${DISC_NAMES[disc]} • ${dur} min/sesión`,M,30);
+  doc.setFillColor(12,20,34);doc.rect(0,0,W,38,'F');
+  doc.setTextColor(77,255,160);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('CRECE DIARIO',M,16);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(138,149,168);doc.text('Plan Semanal con IA',M,23);
+  doc.setTextColor(200,210,220);doc.setFontSize(8);doc.text(`${P.name} • ${P.goal.label} • ${DISC_NAMES[disc]} • ${dur} min/sesión`,M,30);
   y=46;
-
-  doc.setFillColor(15,28,20); doc.roundedRect(M,y,W-M*2,12,2,2,'F');
-  doc.setTextColor(77,255,160); doc.setFontSize(10); doc.setFont('helvetica','bold');
-  doc.text(weekPlan.nombre,M+4,y+8); y+=18;
-
+  doc.setFillColor(15,28,20);doc.roundedRect(M,y,W-M*2,12,2,2,'F');
+  doc.setTextColor(77,255,160);doc.setFontSize(10);doc.setFont('helvetica','bold');doc.text(weekPlan.nombre,M+4,y+8);y+=18;
   weekPlan.dias.forEach((day)=>{
     if(y>248){doc.addPage();bg();y=16;}
-    doc.setFillColor(18,30,22); doc.roundedRect(M,y,W-M*2,9,2,2,'F');
-    doc.setTextColor(77,255,160); doc.setFontSize(9); doc.setFont('helvetica','bold');
-    doc.text(`${day.emoji}  ${day.nombre.toUpperCase()}  —  ${day.enfoque}`,M+3,y+6.5); y+=13;
-
+    doc.setFillColor(18,30,22);doc.roundedRect(M,y,W-M*2,9,2,2,'F');
+    doc.setTextColor(77,255,160);doc.setFontSize(9);doc.setFont('helvetica','bold');
+    doc.text(`${day.emoji}  ${day.nombre.toUpperCase()}  —  ${day.enfoque}`,M+3,y+6.5);y+=13;
     day.ejercicios.forEach((ex,i)=>{
       if(y>252){doc.addPage();bg();y=16;}
-      doc.setFillColor(15,22,34); doc.roundedRect(M,y,W-M*2,20,2,2,'F');
-      doc.setFillColor(77,255,160); doc.circle(M+5,y+7,3,'F');
-      doc.setTextColor(8,12,20); doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.text(String(i+1),M+3.5,y+9);
-      doc.setTextColor(232,237,245); doc.setFontSize(10); doc.setFont('helvetica','bold'); doc.text(ex.nombre,M+11,y+8);
-      doc.setTextColor(77,255,160); doc.setFontSize(8); doc.setFont('helvetica','normal');
-      doc.text(`${ex.series} series × ${ex.reps}  •  Descanso: ${ex.descanso}`,M+11,y+13.5);
+      doc.setFillColor(15,22,34);doc.roundedRect(M,y,W-M*2,20,2,2,'F');
+      doc.setFillColor(77,255,160);doc.circle(M+5,y+7,3,'F');
+      doc.setTextColor(8,12,20);doc.setFontSize(7);doc.setFont('helvetica','bold');doc.text(String(i+1),M+3.5,y+9);
+      doc.setTextColor(232,237,245);doc.setFontSize(10);doc.setFont('helvetica','bold');doc.text(ex.nombre,M+11,y+8);
+      doc.setTextColor(77,255,160);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text(`${ex.series} series × ${ex.reps}  •  Descanso: ${ex.descanso}`,M+11,y+13.5);
       const tl=doc.splitTextToSize('💡 '+ex.tip,W-M*2-14);
-      doc.setTextColor(100,115,135); doc.setFontSize(7); doc.text(tl[0],M+11,y+18); y+=24;
+      doc.setTextColor(100,115,135);doc.setFontSize(7);doc.text(tl[0],M+11,y+18);y+=24;
     });
-
     if(y>252){doc.addPage();bg();y=16;}
-    doc.setFillColor(20,16,6); doc.roundedRect(M,y,W-M*2,10,2,2,'F');
-    doc.setTextColor(180,155,50); doc.setFontSize(8); doc.setFont('helvetica','normal');
-    const cl=doc.splitTextToSize('💡 '+day.consejo,W-M*2-6);
-    doc.text(cl[0],M+3,y+7); y+=14;
+    doc.setFillColor(20,16,6);doc.roundedRect(M,y,W-M*2,10,2,2,'F');
+    doc.setTextColor(180,155,50);doc.setFontSize(8);doc.setFont('helvetica','normal');
+    const cl=doc.splitTextToSize('💡 '+day.consejo,W-M*2-6);doc.text(cl[0],M+3,y+7);y+=14;
   });
-
-  doc.setTextColor(35,50,70); doc.setFontSize(7);
+  doc.setTextColor(35,50,70);doc.setFontSize(7);
   doc.text('Generado por Crece Diario AI  •  crece-diario.netlify.app',M,288);
   doc.text(new Date().toLocaleDateString('es-MX'),W-M-22,288);
   doc.save(`plan-semanal-${P.name.toLowerCase().replace(/ /g,'-')}.pdf`);
 }
 
-// ── HÁBITOS ──
+// ── HABITS ──
 function renderH(){
-  document.getElementById('hlist').innerHTML=habits.map(h=>
-    `<div class="habit-item${h.done?' done':''}" onclick="togH(${h.id})">
-      <span style="font-size:20px">${h.icon}</span>
-      <span class="habit-text">${h.text}</span>
-      <div class="hcheck">${h.done?'✓':''}</div>
-    </div>`).join('');
+  document.getElementById('hlist').innerHTML=habits.map(h=>`<div class="habit-item${h.done?' done':''}" onclick="togH(${h.id})"><span style="font-size:20px">${h.icon}</span><span class="habit-text">${h.text}</span><div class="hcheck">${h.done?'✓':''}</div></div>`).join('');
   updProg();
+  const today=new Date().toISOString().slice(0,10);
+  if(habits.filter(h=>h.done).length>0) logHabits(today);
 }
 function togH(id){habits=habits.map(h=>h.id===id?{...h,done:!h.done}:h);renderH()}
 function updProg(){
@@ -861,7 +1165,7 @@ function updProg(){
   document.getElementById('pcirc').style.strokeDashoffset=163.4*(1-pct/100);
   document.getElementById('ppct').textContent=pct+'%';
   document.getElementById('plabel').textContent=done+'/'+habits.length+' hábitos';
-  document.getElementById('pmsg').textContent=pct===100?'🎉 ¡Día perfecto!':pct>=50?'💪 ¡Vas muy bien!':'¡Empieza el día con energía!';
+  document.getElementById('pmsg').textContent=pct===100?'🎉 ¡Día perfecto!':pct>=50?'💪 ¡Vas muy bien!':'¡Empieza el día!';
 }
 function addH(){
   const inp=document.getElementById('nhi'); if(!inp.value.trim())return;
@@ -870,13 +1174,11 @@ function addH(){
   track('habits'); inp.value=''; renderH();
 }
 async function getSugs(){
-  const btn=document.getElementById('sugbtn');
-  btn.textContent='Generando... ✨'; btn.disabled=true;
+  const btn=document.getElementById('sugbtn'); btn.textContent='Generando... ✨'; btn.disabled=true;
   try{
-    const res=await claude(`Genera exactamente 4 hábitos en JSON array (solo JSON, sin backticks):\n[{"icon":"emoji","text":"hábito corto y específico"}]\nOriginales, distintos a beber agua o leer.`,[{role:'user',content:`Usuario: ${P.name}, objetivo: ${P.goal.label}`}]);
+    const res=await claude(`Genera exactamente 4 hábitos en JSON array (solo JSON, sin backticks):\n[{"icon":"emoji","text":"hábito corto"}]\nOriginales, específicos, distintos a beber agua o leer.`,[{role:'user',content:`Usuario: ${P.name}, objetivo: ${P.goal.label}`}]);
     const sugs=JSON.parse(res.replace(/```json|```/g,'').trim());
-    const w=document.getElementById('sugwrap');
-    w.style.display='block';
+    const w=document.getElementById('sugwrap'); w.style.display='block';
     w.innerHTML='<div style="font-size:10px;color:#8A95A8;margin-bottom:10px;letter-spacing:1px;font-weight:600">SUGERENCIAS DE LA IA</div>'+
       sugs.map(s=>`<div class="sug-item"><span style="font-size:20px">${s.icon}</span><span style="flex:1;font-size:14px">${s.text}</span><button class="add-sug" onclick="addSug('${s.icon}','${s.text.replace(/'/g,"\\'")}',this)">+ Añadir</button></div>`).join('');
   }catch(e){alert('Error: '+e.message);}
@@ -896,7 +1198,7 @@ async function doSend(text){
   if(!canDo('messages')){ showUpgradePopup('messages'); return; }
   loading=true; usb(); addUsr(text); chatH.push({role:'user',content:text}); showTyping();
   try{
-    const sys=`Eres FitCoach AI, entrenador personal de élite. Hablas en español, eres cercano y motivador. Respuestas directas con base científica.\nPerfil: ${P.name}, ${P.age} años, ${P.gender}, ${P.weight}kg, ${P.height}cm, objetivo: ${P.goal.label}, nivel: ${P.level}.`;
+    const sys=`Eres FitCoach AI, entrenador personal de élite. Hablas en español, eres cercano y motivador.\nPerfil: ${P.name}, ${P.age} años, ${P.gender}, ${P.weight}kg, ${P.height}cm, objetivo: ${P.goal.label}, nivel: ${P.level}.`;
     const res=await claude(sys,chatH);
     hideTyping(); chatH.push({role:'assistant',content:res}); addBot(res); track('messages');
   }catch(e){hideTyping();addBot('❌ Error: '+e.message);}
