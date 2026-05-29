@@ -17,6 +17,10 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#080C14;font-family:'Outfit',sans-serif;color:#E8EDF5;min-height:100vh;display:flex;justify-content:center}
@@ -31,6 +35,39 @@ input::placeholder,textarea::placeholder{color:#3a4555}
 .fade{animation:fadeUp .4s ease both}
 .glow1{position:fixed;width:500px;height:500px;border-radius:50%;filter:blur(140px);opacity:.06;background:#4DFFA0;top:-150px;right:-150px;pointer-events:none;z-index:0}
 .glow2{position:fixed;width:350px;height:350px;border-radius:50%;filter:blur(120px);opacity:.04;background:#00C8FF;bottom:0;left:-100px;pointer-events:none;z-index:0}
+
+/* ── LOGIN SCREEN ── */
+#login-screen{flex:1;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;position:relative;z-index:1}
+#login-screen.on{display:flex}
+.login-logo{font-size:42px;font-weight:800;text-align:center;margin-bottom:6px}
+.login-logo span{color:#4DFFA0}
+.login-tag{font-size:14px;color:#8A95A8;text-align:center;margin-bottom:36px}
+.login-google{width:100%;padding:14px;border-radius:16px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#E8EDF5;font-size:15px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;margin-bottom:16px}
+.login-google:hover{background:rgba(255,255,255,.1)}
+.login-google img{width:20px;height:20px}
+.login-divider{display:flex;align-items:center;gap:12px;margin-bottom:16px;width:100%}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1)}
+.login-divider span{font-size:12px;color:#555}
+.login-field{width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.09);border-radius:14px;padding:13px 16px;color:#E8EDF5;font-size:15px;outline:none;margin-bottom:10px;transition:border-color .2s;font-family:'Outfit',sans-serif}
+.login-field:focus{border-color:rgba(77,255,160,.4)}
+.login-btn{width:100%;padding:14px;border-radius:16px;border:none;font-size:15px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;background:linear-gradient(135deg,#4DFFA0,#00C87A);color:#080C14;box-shadow:0 4px 24px rgba(77,255,160,.2);transition:all .2s;margin-top:4px}
+.login-toggle{text-align:center;margin-top:16px;font-size:13px;color:#8A95A8}
+.login-toggle span{color:#4DFFA0;cursor:pointer;font-weight:600}
+.login-error{background:rgba(255,75,75,.1);border:1px solid rgba(255,75,75,.25);border-radius:12px;padding:10px 14px;font-size:13px;color:#FF8080;margin-bottom:12px;display:none;text-align:center}
+.login-user-bar{position:absolute;top:16px;right:16px;display:flex;align-items:center;gap:8px}
+.logout-btn{padding:5px 12px;border-radius:100px;background:rgba(255,75,75,.1);border:1px solid rgba(255,75,75,.2);color:#FF8080;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600}
+/* Profile edit modal */
+.profile-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:160;display:none;align-items:flex-end;justify-content:center}
+.profile-modal-bg.on{display:flex}
+.profile-modal{background:#0C1622;border:1px solid rgba(255,255,255,.09);border-radius:26px 26px 0 0;padding:28px 20px 44px;width:100%;max-width:480px;animation:slideUp .32s ease;max-height:85vh;overflow-y:auto}
+.pf-row{display:flex;gap:10px;margin-bottom:10px}
+.pf-label{font-size:11px;color:#8A95A8;letter-spacing:.5px;margin-bottom:5px}
+.pf-field{width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.09);border-radius:12px;padding:12px 14px;color:#E8EDF5;font-size:14px;outline:none;font-family:'Outfit',sans-serif;transition:border-color .2s}
+.pf-field:focus{border-color:rgba(77,255,160,.4)}
+/* Saved plan banner */
+.resume-banner{background:linear-gradient(135deg,rgba(77,255,160,.1),rgba(0,200,122,.06));border:1px solid rgba(77,255,160,.25);border-radius:16px;padding:14px 16px;margin-bottom:16px;display:none;cursor:pointer}
+.resume-banner-title{font-size:14px;font-weight:700;color:#4DFFA0;margin-bottom:3px}
+.resume-banner-sub{font-size:12px;color:#8A95A8}
 
 /* ── INTRO SLIDES ── */
 #intro{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;z-index:1;background:#080C14}
@@ -381,6 +418,73 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 <div id="app">
 <div class="glow1"></div><div class="glow2"></div>
 
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-logo">Crece <span>Diario</span> ⚡</div>
+  <div class="login-tag">Tu entrenador personal con IA</div>
+
+  <div style="width:100%">
+    <div class="login-error" id="login-error"></div>
+
+    <!-- Google -->
+    <button class="login-google" onclick="loginGoogle()">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continuar con Google
+    </button>
+
+    <div class="login-divider"><span>o usa tu correo</span></div>
+
+    <input class="login-field" id="login-email" type="email" placeholder="Correo electrónico"/>
+    <input class="login-field" id="login-pass" type="password" placeholder="Contraseña" onkeydown="if(event.key==='Enter')submitAuth()"/>
+    <div id="login-name-wrap" style="display:none">
+      <input class="login-field" id="login-name" placeholder="¿Cómo te llamas?"/>
+    </div>
+    <button class="login-btn" onclick="submitAuth()" id="login-submit-btn">Iniciar sesión</button>
+
+    <div class="login-toggle" id="login-toggle-text">
+      ¿No tienes cuenta? <span onclick="toggleAuthMode()">Crear cuenta gratis</span>
+    </div>
+    <div class="login-toggle" style="margin-top:8px">
+      <span onclick="loginGoogle()" style="color:#8A95A8;font-weight:400">¿Olvidaste tu contraseña?</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE EDIT MODAL -->
+<div class="profile-modal-bg" id="profile-modal-bg">
+  <div class="profile-modal">
+    <div style="font-size:24px;margin-bottom:10px">👤</div>
+    <div style="font-size:20px;font-weight:800;margin-bottom:4px">Editar perfil</div>
+    <div style="font-size:13px;color:#8A95A8;margin-bottom:20px">Actualiza tus datos para mejores resultados</div>
+
+    <div class="pf-row">
+      <div style="flex:1"><div class="pf-label">NOMBRE</div><input class="pf-field" id="pf-name" placeholder="Tu nombre"/></div>
+      <div style="flex:1"><div class="pf-label">EDAD</div><input class="pf-field" id="pf-age" type="number" placeholder="Años"/></div>
+    </div>
+    <div class="pf-row">
+      <div style="flex:1"><div class="pf-label">PESO (kg)</div><input class="pf-field" id="pf-weight" type="number" placeholder="70"/></div>
+      <div style="flex:1"><div class="pf-label">ALTURA (cm)</div><input class="pf-field" id="pf-height" type="number" placeholder="170"/></div>
+    </div>
+    <div class="pf-label" style="margin-top:4px">NIVEL</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+      <div class="pill" id="pf-lp" onclick="pfLvl('principiante')">🌱 Principiante</div>
+      <div class="pill" id="pf-li" onclick="pfLvl('intermedio')">💪 Intermedio</div>
+      <div class="pill" id="pf-la" onclick="pfLvl('avanzado')">🔥 Avanzado</div>
+    </div>
+    <div class="pf-label">OBJETIVO</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px">
+      <div class="goal-card" style="padding:12px 8px" onclick="pfGoal('musculo','💪','Subir músculo')"><div class="ge" style="font-size:22px">💪</div><div class="gl" style="font-size:12px">Músculo</div></div>
+      <div class="goal-card" style="padding:12px 8px" onclick="pfGoal('grasa','🔥','Bajar grasa')"><div class="ge" style="font-size:22px">🔥</div><div class="gl" style="font-size:12px">Bajar grasa</div></div>
+      <div class="goal-card" style="padding:12px 8px" onclick="pfGoal('resistencia','🏃','Resistencia')"><div class="ge" style="font-size:22px">🏃</div><div class="gl" style="font-size:12px">Resistencia</div></div>
+      <div class="goal-card" style="padding:12px 8px" onclick="pfGoal('tonificar','✨','Tonificar')"><div class="ge" style="font-size:22px">✨</div><div class="gl" style="font-size:12px">Tonificar</div></div>
+      <div class="goal-card" style="padding:12px 8px" onclick="pfGoal('flexibilidad','🧘','Flexibilidad')"><div class="ge" style="font-size:22px">🧘</div><div class="gl" style="font-size:12px">Flexibilidad</div></div>
+      <div class="goal-card" style="padding:12px 8px" onclick="pfGoal('salud','💚','Salud general')"><div class="ge" style="font-size:22px">💚</div><div class="gl" style="font-size:12px">Salud</div></div>
+    </div>
+    <button class="btn-p" onclick="saveProfile()" style="margin-top:0">Guardar cambios ✓</button>
+    <button class="btn-s" onclick="closeProfileModal()" style="margin-top:10px;padding:12px">Cancelar</button>
+  </div>
+</div>
+
 <!-- INTRO SLIDES -->
 <div id="intro">
   <button class="intro-skip" onclick="skipIntro()">Saltar ✕</button>
@@ -556,6 +660,15 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
         <span class="dnav-badge" id="coach-badge" style="display:none;background:rgba(77,255,160,.15);color:#4DFFA0"></span>
       </div>
       <div style="height:1px;background:rgba(255,255,255,.06);margin:10px 4px"></div>
+      <div class="dnav-item" onclick="openProfileModal();closeDrawer()">
+        <span class="dnav-icon">👤</span>
+        <span class="dnav-label">Editar perfil</span>
+      </div>
+      <div class="dnav-item" onclick="logoutUser();closeDrawer()" style="margin-bottom:0">
+        <span class="dnav-icon">🚪</span>
+        <span class="dnav-label" style="color:#FF8080">Cerrar sesión</span>
+      </div>
+      <div style="height:1px;background:rgba(255,255,255,.06);margin:10px 4px"></div>
       <div class="dnav-item" onclick="showEmergency();closeDrawer()">
         <span class="dnav-icon">🚨</span>
         <span class="dnav-label">Modo Emergencia</span>
@@ -588,6 +701,12 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
       <div class="usage-item"><div class="usage-val" id="u-habs">0/5</div><div class="usage-lbl">HÁBITOS</div></div>
       <button class="upgrade-chip" onclick="showPricing()">⚡ Pro</button>
     </div>
+    <!-- Resume saved plan banner -->
+    <div class="resume-banner" id="resume-banner" onclick="resumeSavedPlan()">
+      <div class="resume-banner-title">📅 Tienes un plan guardado</div>
+      <div class="resume-banner-sub" id="resume-banner-sub">Toca para continuar donde lo dejaste</div>
+    </div>
+
     <div id="plan-config">
       <div class="slabel">Disciplina</div>
       <div class="disc-grid">
@@ -823,6 +942,231 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 </div>
 
 <script>
+// ── FIREBASE CONFIG ──
+// 👇 Reemplaza con tu configuración de Firebase
+const FB_CONFIG = {
+  apiKey:            "REEMPLAZA_CON_TU_API_KEY",
+  authDomain:        "REEMPLAZA_CON_TU_AUTH_DOMAIN",
+  projectId:         "REEMPLAZA_CON_TU_PROJECT_ID",
+  storageBucket:     "REEMPLAZA_CON_TU_STORAGE_BUCKET",
+  messagingSenderId: "REEMPLAZA_CON_TU_SENDER_ID",
+  appId:             "REEMPLAZA_CON_TU_APP_ID"
+};
+
+let fbApp=null, fbAuth=null, fbDb=null, currentUser=null;
+let isRegisterMode=false, pfLvlVal='', pfGoalVal={};
+
+function initFirebase(){
+  try{
+    fbApp  = firebase.initializeApp(FB_CONFIG);
+    fbAuth = firebase.auth();
+    fbDb   = firebase.firestore();
+
+    fbAuth.onAuthStateChanged(async user=>{
+      currentUser=user;
+      if(user){
+        // Logged in
+        document.getElementById('login-screen').classList.remove('on');
+        const saved = await loadUserFirestore(user.uid);
+        if(saved){
+          P=saved.profile||P;
+          if(saved.habits) habits=saved.habits;
+        }
+        // Check if onboarding done
+        if(P.name){
+          document.getElementById('onboarding').style.display='none';
+          document.getElementById('intro').style.display='none';
+          document.getElementById('main').style.display='flex';
+          afterStart();
+        } else {
+          // Show intro or onboarding
+          if(localStorage.getItem('cd_intro_seen')){
+            document.getElementById('intro').style.display='none';
+            document.getElementById('onboarding').style.display='flex';
+          } else {
+            document.getElementById('intro').style.display='flex';
+          }
+        }
+      } else {
+        // Not logged in
+        document.getElementById('login-screen').classList.add('on');
+        document.getElementById('intro').style.display='none';
+        document.getElementById('onboarding').style.display='none';
+        document.getElementById('main').style.display='none';
+      }
+    });
+  } catch(e){
+    // Firebase not configured — run in offline mode
+    console.warn('Firebase no configurado, modo offline activo');
+    document.getElementById('login-screen').classList.remove('on');
+    if(localStorage.getItem('cd_intro_seen')){
+      document.getElementById('intro').style.display='none';
+      document.getElementById('onboarding').style.display='flex';
+    } else {
+      document.getElementById('intro').style.display='flex';
+    }
+  }
+}
+
+// Auth functions
+async function loginGoogle(){
+  if(!fbAuth){ showLoginError('Firebase no configurado'); return; }
+  try{
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await fbAuth.signInWithPopup(provider);
+  } catch(e){ showLoginError(e.message); }
+}
+
+function toggleAuthMode(){
+  isRegisterMode=!isRegisterMode;
+  document.getElementById('login-name-wrap').style.display=isRegisterMode?'block':'none';
+  document.getElementById('login-submit-btn').textContent=isRegisterMode?'Crear cuenta gratis':'Iniciar sesión';
+  document.getElementById('login-toggle-text').innerHTML=isRegisterMode
+    ?'¿Ya tienes cuenta? <span onclick="toggleAuthMode()">Iniciar sesión</span>'
+    :'¿No tienes cuenta? <span onclick="toggleAuthMode()">Crear cuenta gratis</span>';
+  hideLoginError();
+}
+
+async function submitAuth(){
+  if(!fbAuth){ showLoginError('Firebase no configurado'); return; }
+  const email=document.getElementById('login-email').value.trim();
+  const pass=document.getElementById('login-pass').value;
+  if(!email||!pass){ showLoginError('Completa todos los campos'); return; }
+  try{
+    if(isRegisterMode){
+      await fbAuth.createUserWithEmailAndPassword(email, pass);
+      const name=document.getElementById('login-name').value.trim();
+      if(name&&fbAuth.currentUser) await fbAuth.currentUser.updateProfile({displayName:name});
+    } else {
+      await fbAuth.signInWithEmailAndPassword(email, pass);
+    }
+  } catch(e){
+    const msgs={'auth/wrong-password':'Contraseña incorrecta','auth/user-not-found':'No existe una cuenta con ese correo','auth/email-already-in-use':'Ya existe una cuenta con ese correo','auth/weak-password':'La contraseña debe tener al menos 6 caracteres'};
+    showLoginError(msgs[e.code]||e.message);
+  }
+}
+
+function showLoginError(msg){ const el=document.getElementById('login-error'); el.textContent=msg; el.style.display='block'; }
+function hideLoginError(){ document.getElementById('login-error').style.display='none'; }
+
+async function logoutUser(){
+  if(fbAuth) await fbAuth.signOut();
+  P={}; gender=''; level=''; goal={}; disc=null; weekPlan=null;
+  localStorage.removeItem('cd_saved_plan');
+  document.getElementById('main').style.display='none';
+  document.getElementById('login-screen').classList.add('on');
+}
+
+// Firestore sync
+async function saveUserFirestore(uid, data){
+  if(!fbDb||!uid) return;
+  try{ await fbDb.collection('users').doc(uid).set(data, {merge:true}); } catch(e){ console.warn('Firestore write error:',e); }
+}
+async function loadUserFirestore(uid){
+  if(!fbDb||!uid) return null;
+  try{ const doc=await fbDb.collection('users').doc(uid).get(); return doc.exists?doc.data():null; } catch(e){ return null; }
+}
+function syncToFirestore(){
+  if(!currentUser) return;
+  saveUserFirestore(currentUser.uid, {
+    profile: P,
+    habits,
+    updatedAt: new Date().toISOString()
+  });
+}
+
+// ── PLAN PERSISTENCE ──
+function savePlanLocal(plan, discKey, durVal){
+  localStorage.setItem('cd_saved_plan', JSON.stringify({plan, disc:discKey, dur:durVal, date:new Date().toISOString().slice(0,10)}));
+}
+function loadSavedPlan(){ return JSON.parse(localStorage.getItem('cd_saved_plan')||'null'); }
+function clearSavedPlan(){ localStorage.removeItem('cd_saved_plan'); }
+
+function checkResumeBanner(){
+  const saved=loadSavedPlan();
+  const banner=document.getElementById('resume-banner');
+  if(!banner) return;
+  if(saved && saved.plan){
+    document.getElementById('resume-banner-sub').textContent=`Plan: ${saved.plan.nombre} · ${saved.date}`;
+    banner.style.display='block';
+  } else {
+    banner.style.display='none';
+  }
+}
+function resumeSavedPlan(){
+  const saved=loadSavedPlan();
+  if(!saved) return;
+  weekPlan=saved.plan; disc=saved.disc; dur=saved.dur;
+  document.getElementById('resume-banner').style.display='none';
+  document.getElementById('plan-config').style.display='none';
+  document.getElementById('week-view').style.display='block';
+  renderWeekPlan(weekPlan);
+}
+
+// ── PROFILE EDIT ──
+function openProfileModal(){
+  // Pre-fill fields
+  document.getElementById('pf-name').value=P.name||'';
+  document.getElementById('pf-age').value=P.age||'';
+  document.getElementById('pf-weight').value=P.weight||'';
+  document.getElementById('pf-height').value=P.height||'';
+  pfLvlVal=P.level||'';
+  pfGoalVal=P.goal||{};
+  // Update pills
+  ['lp','li','la'].forEach(id=>document.getElementById('pf-'+id).classList.remove('on'));
+  if(pfLvlVal) document.getElementById({principiante:'pf-lp',intermedio:'pf-li',avanzado:'pf-la'}[pfLvlVal])?.classList.add('on');
+  document.querySelectorAll('#profile-modal-bg .goal-card').forEach(c=>c.classList.remove('on'));
+  document.getElementById('profile-modal-bg').classList.add('on');
+}
+function closeProfileModal(){ document.getElementById('profile-modal-bg').classList.remove('on'); }
+function pfLvl(l){ pfLvlVal=l; ['pf-lp','pf-li','pf-la'].forEach(id=>document.getElementById(id).classList.remove('on')); document.getElementById({principiante:'pf-lp',intermedio:'pf-li',avanzado:'pf-la'}[l]).classList.add('on'); }
+function pfGoal(id,icon,label){ pfGoalVal={id,icon,label}; document.querySelectorAll('#profile-modal-bg .goal-card').forEach(c=>c.classList.remove('on')); event.currentTarget.classList.add('on'); }
+function saveProfile(){
+  P.name=document.getElementById('pf-name').value.trim()||P.name;
+  P.age=document.getElementById('pf-age').value||P.age;
+  P.weight=document.getElementById('pf-weight').value||P.weight;
+  P.height=document.getElementById('pf-height').value||P.height;
+  if(pfLvlVal) P.level=pfLvlVal;
+  if(pfGoalVal.id) P.goal=pfGoalVal;
+  // Update UI
+  document.getElementById('hname').textContent=P.name;
+  document.getElementById('gbadge').textContent=(P.goal?.icon||'')+(P.goal?.label?' '+P.goal.label:'');
+  updateDrawer();
+  syncToFirestore();
+  closeProfileModal();
+  // Toast
+  showToast('✅ Perfil actualizado');
+}
+
+// Toast notification
+function showToast(msg){
+  let t=document.getElementById('toast');
+  if(!t){ t=document.createElement('div'); t.id='toast'; t.style.cssText='position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#1a2535;border:1px solid rgba(77,255,160,.3);color:#4DFFA0;padding:10px 20px;border-radius:100px;font-size:13px;font-weight:700;z-index:300;transition:opacity .3s;font-family:Outfit,sans-serif'; document.body.appendChild(t); }
+  t.textContent=msg; t.style.opacity='1';
+  setTimeout(()=>t.style.opacity='0', 2500);
+}
+
+// After login/start common setup
+function afterStart(){
+  document.getElementById('hname').textContent=P.name;
+  document.getElementById('gbadge').textContent=P.goal.icon+' '+P.goal.label;
+  const now=new Date();
+  const mon=new Date(now); mon.setDate(now.getDate()-((now.getDay()+6)%7));
+  const fri=new Date(mon); fri.setDate(mon.getDate()+4);
+  const fmt=d=>d.toLocaleDateString('es-MX',{day:'numeric',month:'short'});
+  document.getElementById('week-label').textContent=`Semana del ${fmt(mon)} al ${fmt(fri)}`;
+  document.getElementById('hdate').textContent=now.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('prog-date').textContent=now.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'});
+  checkPaymentReturn(); updateUsageUI(); renderH(); renderHeatmap(); renderStats(); updateDrawer(); checkResumeBanner();
+  if(now.getDay()===0){ const lr=localStorage.getItem('cd_last_review'); if(lr!==now.toISOString().slice(0,10)) setTimeout(()=>showWeeklyReview(),2500); }
+  addBot(`¡Hola ${P.name}! 👋\n\nSoy tu coach IA. Estoy listo para ayudarte con tu objetivo: ${P.goal.label}.\n\n¿Quieres generar tu plan semanal?`);
+}
+
+// Init Firebase on load
+window.addEventListener('DOMContentLoaded', ()=>{
+  initFirebase();
+});
+
 // ── INTRO SLIDES ──
 let introIdx=0;
 const INTRO_TOTAL=4;
@@ -983,19 +1327,8 @@ function startApp(){
   P={name:document.getElementById('fname').value.trim(),age:document.getElementById('fage').value.trim(),gender,weight:document.getElementById('fweight').value.trim(),height:document.getElementById('fheight').value.trim(),level,goal};
   document.getElementById('onboarding').style.display='none';
   document.getElementById('main').style.display='flex';
-  document.getElementById('hname').textContent=P.name;
-  document.getElementById('gbadge').textContent=P.goal.icon+' '+P.goal.label;
-  const now=new Date();
-  const mon=new Date(now); mon.setDate(now.getDate()-((now.getDay()+6)%7));
-  const fri=new Date(mon); fri.setDate(mon.getDate()+4);
-  const fmt=d=>d.toLocaleDateString('es-MX',{day:'numeric',month:'short'});
-  document.getElementById('week-label').textContent=`Semana del ${fmt(mon)} al ${fmt(fri)}`;
-  document.getElementById('hdate').textContent=now.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'});
-  document.getElementById('prog-date').textContent=now.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'});
-  checkPaymentReturn(); updateUsageUI(); renderH(); renderHeatmap(); renderStats(); updateDrawer();
-  // Check for Sunday weekly review
-  if(now.getDay()===0){ const lr=localStorage.getItem('cd_last_review'); if(lr!==now.toISOString().slice(0,10)) setTimeout(()=>showWeeklyReview(),2000); }
-  addBot(`¡Hola ${P.name}! 👋\n\nSoy tu coach IA personal. Tengo acceso a tu progreso y perfil.\n\n¿Quieres generar tu plan semanal o tienes alguna pregunta?`);
+  syncToFirestore();
+  afterStart();
 }
 
 // ── DRAWER ──
@@ -1064,6 +1397,8 @@ Genera exactamente 5 días (Lunes a Viernes). 5-6 ejercicios por día. Varía gr
     weekPlan=JSON.parse(res.replace(/```json|```/g,'').trim());
     track('plans');
     saveLastPlan(weekPlan,disc,P.goal.label,P.level);
+    savePlanLocal(weekPlan,disc,dur);
+    checkResumeBanner();
     renderWeekPlan(weekPlan);
   }catch(e){ alert('Error: '+e.message); }
   btn.textContent='Generar plan semanal 🚀'; btn.disabled=false; loading=false;
@@ -1284,6 +1619,7 @@ function toggleEx(d,i){ document.getElementById(`exc${d}_${i}`).classList.toggle
 
 function resetPlan(){
   weekPlan=null; activeDay=0;
+  clearSavedPlan(); checkResumeBanner();
   document.getElementById('plan-config').style.display='block';
   document.getElementById('week-view').style.display='none';
 }
@@ -1443,7 +1779,7 @@ function renderH(){
   const today=new Date().toISOString().slice(0,10);
   if(habits.filter(h=>h.done).length>0) logHabits(today);
 }
-function togH(id){habits=habits.map(h=>h.id===id?{...h,done:!h.done}:h);renderH()}
+function togH(id){habits=habits.map(h=>h.id===id?{...h,done:!h.done}:h);renderH();syncToFirestore();}
 function updProg(){
   const done=habits.filter(h=>h.done).length, pct=habits.length?Math.round(done/habits.length*100):0;
   document.getElementById('pcirc').style.strokeDashoffset=163.4*(1-pct/100);
