@@ -1305,7 +1305,7 @@ let habits=[
 let chatH=[], loading=false, weekPlan=null, activeDay=0, emDays=0;
 
 async function claude(sys,msgs,maxTok=2000){
-  const r=await fetch('/api/claude',{
+  const r=await fetch('/.netlify/functions/claude',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:maxTok,system:sys,messages:msgs})
