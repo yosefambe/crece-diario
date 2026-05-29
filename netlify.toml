@@ -4,6 +4,19 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Landing page como página principal
+[[redirects]]
+  from = "/"
+  to = "/landing.html"
+  status = 200
+
+# App en /app
+[[redirects]]
+  from = "/app"
+  to = "/index.html"
+  status = 200
+
+# Función API
 [[redirects]]
   from = "/api/claude"
   to = "/.netlify/functions/claude"
