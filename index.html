@@ -682,7 +682,7 @@ input.field:focus{border-color:rgba(77,255,160,.4)}
 </div>
 
 <script>
-const AK="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";
+const AK=null; // Key moved to Netlify env var ANTHROPIC_API_KEY
 const STRIPE={pro:'https://buy.stripe.com/test_7sY00k1HRdoO5IddwNg3600',anual:'https://buy.stripe.com/test_9B67sMaenckKc6B64lg3603',lifetime:'https://buy.stripe.com/test_4gM3cw72b70q6Mh8ctg3602'};
 const LIMITS={free:{plans:3,messages:10,habits:5}};
 const DISC_NAMES={calistenia:'Calistenia',pesas:'Pesas',yoga:'Yoga',crossfit:'CrossFit',movilidad:'Movilidad',cardio:'Cardio',pilates:'Pilates',hiit:'HIIT',funcional:'Funcional',viaje:'Sin equipo / Hotel'};
@@ -694,7 +694,7 @@ let chatH=[],loading=false,weekPlan=null,activeDay=0,emDays=0;
 let timerIntervals={};
 
 async function claude(sys,msgs,maxTok=2000){
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':AK,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:maxTok,system:sys,messages:msgs})});
+  const r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:maxTok,system:sys,messages:msgs})});
   const d=await r.json();
   if(d.error)throw new Error(d.error.message||JSON.stringify(d.error));
   return d.content.map(b=>b.text||'').join('');
